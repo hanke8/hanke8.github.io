@@ -18,7 +18,7 @@
   <meta name="author" content="Hanke">
   <meta name="keywords" content="">
   
-  <title>“我的第一篇博客文章” - Hanke&#39;s Blog</title>
+  <title>叶子相似的树—二叉树dfs遍历 - Hanke&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -167,7 +167,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="“我的第一篇博客文章”">
+            <span class="h2" id="subtitle" title="叶子相似的树—二叉树dfs遍历">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-05-12 01:22" pubdate>
-        2021年5月12日 凌晨
+      <time datetime="2021-05-12 21:49" pubdate>
+        2021年5月12日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      10 字
+      274 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      3
        分钟
     </span>
   
@@ -241,14 +241,17 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">“我的第一篇博客文章”</h1>
+            <h1 style="display: none">叶子相似的树—二叉树dfs遍历</h1>
             
             <div class="markdown-body">
-              <h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>内容</p>
-<hr>
-
+              <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>请考虑一棵二叉树上所有的叶子，这些叶子的值按从左到右的顺序排列形成一个 叶值序列 。</p>
+<p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/16/tree.png" srcset="/img/loading.gif" lazyload alt="二叉树"></p>
+<p>举个例子，如上图所示，给定一棵叶值序列为 (6, 7, 4, 9, 8) 的树。</p>
+<p>如果有两棵二叉树的叶值序列是相同，那么我们就认为它们是 叶相似 的。</p>
+<p>如果给定的两个根结点分别为 root1 和 root2 的树是叶相似的，则返回 true；否则返回 false 。</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><h3 id="解法：dfs"><a href="#解法：dfs" class="headerlink" title="解法：dfs"></a>解法：dfs</h3><p>判断叶子结点的方法：当前结点不为空，且左右结点均为空。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-610763c21c420b67408536291bb72706_720w.jpg?source=1940ef5c" srcset="/img/loading.gif" lazyload alt="运行结果"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; v1,v2;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> type)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(root &amp;&amp; !(root-&gt;left) &amp;&amp; !(root-&gt;right))<br>        &#123;<br>            <span class="hljs-keyword">if</span>(type==<span class="hljs-number">1</span>)<br>                v1.<span class="hljs-built_in">push_back</span>(root-&gt;val);<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(type==<span class="hljs-number">2</span>)<br>                v2.<span class="hljs-built_in">push_back</span>(root-&gt;val);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(root-&gt;left) <span class="hljs-built_in">dfs</span>(root-&gt;left, type);<br>        <span class="hljs-keyword">if</span>(root-&gt;right) <span class="hljs-built_in">dfs</span>(root-&gt;right, type);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">leafSimilar</span><span class="hljs-params">(TreeNode* root1, TreeNode* root2)</span> </span>&#123;<br>        <span class="hljs-built_in">dfs</span>(root1, <span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">dfs</span>(root2, <span class="hljs-number">2</span>);<br>        <span class="hljs-keyword">int</span> len = v1.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">if</span>(len != v2.<span class="hljs-built_in">size</span>()) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;len; i++)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(v1[i]!=v2[i]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
             </div>
             <hr>
             <div>
@@ -257,7 +260,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+                      <a class="hover-with-bg" href="/categories/%E5%8A%9B%E6%89%A3%E9%A2%98%E8%A7%A3/">力扣题解</a>
                     
                   </div>
                 
@@ -265,7 +268,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%9D%82%E6%96%87/">杂文</a>
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
                     
                   </div>
                 
@@ -282,18 +285,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/05/12/%E5%8F%B6%E5%AD%90%E7%9B%B8%E4%BC%BC%E7%9A%84%E6%A0%91%E2%80%94%E4%BA%8C%E5%8F%89%E6%A0%91dfs%E9%81%8D%E5%8E%86/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">叶子相似的树—二叉树dfs遍历</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/05/11/hello-world/">
-                        <span class="hidden-mobile">Hello World</span>
+                      <a href="/2021/05/12/%E2%80%9C%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0%E2%80%9D/">
+                        <span class="hidden-mobile">“我的第一篇博客文章”</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
