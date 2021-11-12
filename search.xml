@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>leetcode第241场周赛</title>
-    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
-    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目1"></p>
-<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>leetcode周赛</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leetcode78.子集-求子集的两个模板</title>
     <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目"></p>
@@ -35,6 +21,20 @@
       </categories>
       <tags>
         <tag>二进制状态编码 回溯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode第241场周赛</title>
+    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
+    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目1"></p>
+<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode周赛</tag>
       </tags>
   </entry>
 </search>
