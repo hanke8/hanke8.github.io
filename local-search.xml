@@ -4,39 +4,25 @@
   
   
   <entry>
-    <title>离谱</title>
-    <link href="/2021/11/12/%E7%A6%BB%E8%B0%B1/"/>
-    <url>/2021/11/12/%E7%A6%BB%E8%B0%B1/</url>
+    <title>随笔</title>
+    <link href="/2021/11/12/%E9%9A%8F%E7%AC%94/"/>
+    <url>/2021/11/12/%E9%9A%8F%E7%AC%94/</url>
     
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>“test1”</title>
-    <link href="/2021/11/12/%E2%80%9Ctest1%E2%80%9D/"/>
-    <url>/2021/11/12/%E2%80%9Ctest1%E2%80%9D/</url>
-    
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<hr><hr><h2 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h2><ul><li>挺无语的</li></ul>]]></content>
     
     
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>测试</title>
-    <link href="/2021/11/12/%E6%B5%8B%E8%AF%95/"/>
-    <url>/2021/11/12/%E6%B5%8B%E8%AF%95/</url>
-    
-    <content type="html"><![CDATA[]]></content>
+    <categories>
+      
+      <category>随笔</category>
+      
+    </categories>
     
     
+    <tags>
+      
+      <tag>测试</tag>
+      
+    </tags>
     
   </entry>
   
