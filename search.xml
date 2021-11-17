@@ -31,6 +31,20 @@
       </tags>
   </entry>
   <entry>
+    <title>leetcode第241场周赛</title>
+    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
+    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
+<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode周赛</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode78.子集-求子集的两个模板</title>
     <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
@@ -54,17 +68,29 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode第241场周赛</title>
-    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
-    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
-<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+    <title>状态压缩</title>
+    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
+    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
+<li>用二进制表示状态</li>
+<li>位运算</li>
+</ul>
+<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
+<ul>
+<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
+<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
+<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
+<ul>
+<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
+</ul>
 ]]></content>
       <categories>
         <category>算法</category>
       </categories>
       <tags>
-        <tag>leetcode周赛</tag>
+        <tag>状态压缩</tag>
       </tags>
   </entry>
 </search>
