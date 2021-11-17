@@ -93,4 +93,44 @@
         <tag>状态压缩</tag>
       </tags>
   </entry>
+  <entry>
+    <title>端口复用</title>
+    <url>/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="端口复用"><a href="#端口复用" class="headerlink" title="端口复用"></a>端口复用</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><ul>
+<li>默认的情况下，一个端口只能被一个套接字绑定；如果一个网络应用程序的一个套接字绑定了一个端口( 占用了 8000 )，这时候，别的套接字就无法使用这个端口( 8000 )；</li>
+<li>因为多个应用程序占用一个端口，容易发生混乱；</li>
+</ul>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><ul>
+<li>（1）服务器只对外开放某一端口（80端口或其他任意少量端口），其他端口全部被封死（2）为了躲避防火墙（3）隐藏自己后门（4）转发不出端口（5）内网渗透</li>
+<li>端口复用最常用的用途应该是防止服务器重启时之前绑定的端口还未释放或者程序突然退出而系统没有释放端口。这种情况下如果设定了端口复用，则新启动的服务器进程可以直接绑定端口。如果没有设定端口复用，绑定会失败，提示ADDR已经在使用中——那只好等等再重试了，麻烦！</li>
+</ul>
+<h4 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h4><ul>
+<li><strong>设置socket的SO_REUSEADDR选项，即可实现端口复用：</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> opt = <span class="hljs-number">1</span>;<br><span class="hljs-comment">// sockfd为需要端口复用的套接字</span><br><span class="hljs-built_in">setsockopt</span>(sockfd, SOL_SOCKET, SO_REUSEADDR, (<span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *)&amp;opt, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(opt));<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h4><ul>
+<li><p>端口复用允许在一个应用程序可以把 n 个套接字绑在一个端口上而不出错。同时，这 n 个套接字发送信息都正常，没有问题。但是，这些套接字并不是所有都能读取信息，只有最后一个套接字会正常接收数据。</p>
+</li>
+<li><p>端口复用的原理是与源端口占用程序监听同一端口，当复用端口有数据来时，我们可以判断是否是自己的数据包，如果是自己的，那么就自己处理，否则把数据包交给源端口占用程序处理。</p>
+</li>
+<li><p>在这里有个问题就是，如果你不处理数据包的归属问题的话，那么这个端口就会被端口复用程序占用，从而导致源端口占用程序无法工作。</p>
+</li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/tennysonsky/article/details/44062173">https://blog.csdn.net/tennysonsky/article/details/44062173</a></li>
+<li><a href="https://juejin.cn/post/6844903509624651790#heading-4">https://juejin.cn/post/6844903509624651790#heading-4</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>端口复用</tag>
+      </tags>
+  </entry>
 </search>
