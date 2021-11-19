@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>epolloneshot事件</title>
+    <link href="/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/"/>
+    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
+    
+    <content type="html"><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p><h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p><h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br><span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;<span class="hljs-comment">// 客户端关闭连接</span><br>    <span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;<span class="hljs-comment">// 数据被读完</span><br>        <span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure><h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul><li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li><li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux网络编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>epolloneshot</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>端口复用</title>
     <link href="/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/"/>
     <url>/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/</url>
