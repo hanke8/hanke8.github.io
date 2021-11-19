@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>epolloneshot事件</title>
+    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
+<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux网络编程</category>
+      </categories>
+      <tags>
+        <tag>epolloneshot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode第241场周赛</title>
+    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
+    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
+<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode周赛</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>0-1背包</title>
     <url>/2021/11/16/0-1%E8%83%8C%E5%8C%85/</url>
     <content><![CDATA[<h3 id="动态规划背包问题"><a href="#动态规划背包问题" class="headerlink" title="动态规划背包问题"></a>动态规划背包问题</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
@@ -31,60 +65,29 @@
       </tags>
   </entry>
   <entry>
-    <title>epolloneshot事件</title>
-    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
+    <title>状态压缩</title>
+    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
+    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
+<li>用二进制表示状态</li>
+<li>位运算</li>
+</ul>
+<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
+<ul>
+<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
+<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
+<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
-<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
+<ul>
+<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
 </ul>
 ]]></content>
       <categories>
-        <category>Linux网络编程</category>
-      </categories>
-      <tags>
-        <tag>epolloneshot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode78.子集-求子集的两个模板</title>
-    <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
-<h2 id="解法1：二进制状态编码"><a href="#解法1：二进制状态编码" class="headerlink" title="解法1：二进制状态编码"></a>解法1：二进制状态编码</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>· 原序列中的每个数字有两种状态：在子集中、不在子集中；<br>· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;<br>· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];<br>· 例如集合{5，2，9}：</p>
-<p><img src="/images/blogImg/lc78_ans.png" alt="举例"></p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> mask=<span class="hljs-number">0</span>; mask &lt; (<span class="hljs-number">1</span>&lt;&lt;n); mask++) <span class="hljs-comment">// 1&lt;&lt;n表示将1左移n位，即2的n次方(2^n)</span><br>        &#123;<br>            vector&lt;<span class="hljs-keyword">int</span>&gt; v;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(mask &amp; (<span class="hljs-number">1</span>&lt;&lt;i)) v.<span class="hljs-built_in">push_back</span>(nums[i]);<br>            &#125;<br>            res.<span class="hljs-built_in">push_back</span>(v);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
-<p>· 空间复杂度：O(n)，构造子集使用的临时数组v的空间代价。</p>
-<h2 id="解法2：回溯法"><a href="#解法2：回溯法" class="headerlink" title="解法2：回溯法"></a>解法2：回溯法</h2><h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>· 每个位置的数字可能在子集中，也可能不在子集中，因此我们只需要对每个位置的这两种情况进行搜索就行。</p>
-<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; temp;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPosition,vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;nums)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(curPosition == nums.<span class="hljs-built_in">size</span>())<br>        &#123;<br>            res.<span class="hljs-built_in">push_back</span>(temp);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//当前位置的数在子集中</span><br>        temp.<span class="hljs-built_in">push_back</span>(nums[curPosition]);<br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>        temp.<span class="hljs-built_in">pop_back</span>();<br>        <span class="hljs-comment">//当前位置的数不在子集中</span><br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>    &#125;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>, nums);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
-<p>· 空间复杂度：O(n)，构造子集使用的临时数组temp的空间代价。</p>
-]]></content>
-      <categories>
         <category>算法</category>
       </categories>
       <tags>
-        <tag>二进制状态编码 回溯</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode第241场周赛</title>
-    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
-    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
-<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>leetcode周赛</tag>
+        <tag>状态压缩</tag>
       </tags>
   </entry>
   <entry>
@@ -113,29 +116,26 @@
       </tags>
   </entry>
   <entry>
-    <title>状态压缩</title>
-    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
-    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
-<li>用二进制表示状态</li>
-<li>位运算</li>
-</ul>
-<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
-<ul>
-<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
-<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
-<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+    <title>leetcode78.子集-求子集的两个模板</title>
+    <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
+<h2 id="解法1：二进制状态编码"><a href="#解法1：二进制状态编码" class="headerlink" title="解法1：二进制状态编码"></a>解法1：二进制状态编码</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>· 原序列中的每个数字有两种状态：在子集中、不在子集中；<br>· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;<br>· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];<br>· 例如集合{5，2，9}：</p>
+<p><img src="/images/blogImg/lc78_ans.png" alt="举例"></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> mask=<span class="hljs-number">0</span>; mask &lt; (<span class="hljs-number">1</span>&lt;&lt;n); mask++) <span class="hljs-comment">// 1&lt;&lt;n表示将1左移n位，即2的n次方(2^n)</span><br>        &#123;<br>            vector&lt;<span class="hljs-keyword">int</span>&gt; v;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(mask &amp; (<span class="hljs-number">1</span>&lt;&lt;i)) v.<span class="hljs-built_in">push_back</span>(nums[i]);<br>            &#125;<br>            res.<span class="hljs-built_in">push_back</span>(v);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
-<ul>
-<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
-</ul>
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
+<p>· 空间复杂度：O(n)，构造子集使用的临时数组v的空间代价。</p>
+<h2 id="解法2：回溯法"><a href="#解法2：回溯法" class="headerlink" title="解法2：回溯法"></a>解法2：回溯法</h2><h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>· 每个位置的数字可能在子集中，也可能不在子集中，因此我们只需要对每个位置的这两种情况进行搜索就行。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; temp;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPosition,vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;nums)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(curPosition == nums.<span class="hljs-built_in">size</span>())<br>        &#123;<br>            res.<span class="hljs-built_in">push_back</span>(temp);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//当前位置的数在子集中</span><br>        temp.<span class="hljs-built_in">push_back</span>(nums[curPosition]);<br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>        temp.<span class="hljs-built_in">pop_back</span>();<br>        <span class="hljs-comment">//当前位置的数不在子集中</span><br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>    &#125;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>, nums);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
+<p>· 空间复杂度：O(n)，构造子集使用的临时数组temp的空间代价。</p>
 ]]></content>
       <categories>
         <category>算法</category>
       </categories>
       <tags>
-        <tag>状态压缩</tag>
+        <tag>二进制状态编码 回溯</tag>
       </tags>
   </entry>
   <entry>
