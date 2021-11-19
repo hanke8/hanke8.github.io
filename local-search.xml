@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>文件描述符</title>
+    <link href="/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/"/>
+    <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    
+    <content type="html"><![CDATA[<h3 id="Linux文件描述符的本质"><a href="#Linux文件描述符的本质" class="headerlink" title="Linux文件描述符的本质"></a>Linux文件描述符的本质</h3><h4 id="大致认识"><a href="#大致认识" class="headerlink" title="大致认识"></a>大致认识</h4><p><strong>文件描述符是文件编号。</strong></p><p>Linux 中一切皆文件，比如 C++ 源文件、视频文件、Shell脚本、可执行文件等，就连键盘、显示器、鼠标等硬件设备也都是文件。</p><p>一个 Linux 进程可以打开成百上千个文件，为了表示和区分已经打开的文件，Linux 会给每个文件分配一个编号（一个 ID），这个编号就是一个整数，被称为文件描述符（File Descriptor）。</p><h4 id="进一步认识"><a href="#进一步认识" class="headerlink" title="进一步认识"></a>进一步认识</h4><p><strong>文件描述符是PCB内部文件描述符表的下标，与文件指针一一映射。</strong></p><p>一个 Linux 进程启动后，会在内核空间中创建一个 PCB 控制块，PCB 内部有一个文件描述符表（File descriptor table），记录着当前进程所有可用的文件描述符，也即当前进程所有打开的文件。</p><p>除了文件描述符表，系统还需要维护另外两张表：</p><ul><li>打开文件表（Open file table）</li><li>i-node 表（i-node table）</li></ul><p><img src="/images/blogImg/fd.png" alt="三者关系"></p><h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul><li><a href="http://c.biancheng.net/view/3066.html">http://c.biancheng.net/view/3066.html</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Linux网络编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>文件描述符</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>epolloneshot事件</title>
     <link href="/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/"/>
     <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
