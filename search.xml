@@ -88,6 +88,52 @@
       </tags>
   </entry>
   <entry>
+    <title>深度探索C++对象模型-第一章(关于对象)</title>
+    <url>/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1/</url>
+    <content><![CDATA[<h2 id="第一章-关于对象"><a href="#第一章-关于对象" class="headerlink" title="第一章    关于对象"></a>第一章    关于对象</h2><h3 id="C-对象模式（The-C-Object-Model）"><a href="#C-对象模式（The-C-Object-Model）" class="headerlink" title="C++对象模式（The C++ Object Model）"></a>C++对象模式（The C++ Object Model）</h3><h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>一个class对象在机器中是如何被表示的呢？</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li><p>简单对象模型（A Simple Object Model）</p>
+</li>
+<li><p>表格驱动对象模型（A Table-driven Object Model）</p>
+</li>
+<li><p>C++ 对象模型（The C++ Object Model）</p>
+</li>
+</ul>
+<h4 id="简单对象模型（A-Simple-Object-Model）"><a href="#简单对象模型（A-Simple-Object-Model）" class="headerlink" title="简单对象模型（A Simple Object Model）"></a>简单对象模型（A Simple Object Model）</h4><blockquote>
+<p>在简单模型中，一个object是一些的slots，每个slot指向一个members。Members按其声明此次序，各被指定一个slot，每一个data member或function member都有自己的一个slot。</p>
+</blockquote>
+<p><img src="/images/blogImg/inside_the_c++_object_model_1.png" alt="简单对象模型"></p>
+<ul>
+<li>简单理解起来就是，一个object被表示成了一个指针数组。</li>
+<li>在这个简单模型中, members本身并不放在 object之中,只有“指向的指针”才放在 object内。这么做可以避免 ”members有不同的类型, 因而需要不同的存储空间“ 所招致的问题。</li>
+<li>这个想法被应用到C++的 “指向成员的指针” 观念之中。</li>
+</ul>
+<h4 id="表格驱动对象模型（A-Table-driven-Object-Model）"><a href="#表格驱动对象模型（A-Table-driven-Object-Model）" class="headerlink" title="表格驱动对象模型（A Table-driven Object Model）"></a>表格驱动对象模型（A Table-driven Object Model）</h4><ul>
+<li>object还是一个指针数组，不过存的是Member Data Table和Function Member Table两个表的地址。</li>
+<li>这个想法成为支持virtual functions的一个有效方案。</li>
+</ul>
+<p><img src="/images/blogImg/inside_the_c++_object_model_2.png" alt="表格驱动对象模型"></p>
+<h4 id="C-对象模型（The-C-Object-Model）"><a href="#C-对象模型（The-C-Object-Model）" class="headerlink" title="C++ 对象模型（The C++ Object Model）"></a>C++ 对象模型（The C++ Object Model）</h4><ul>
+<li><p>在此模型中，Nonstatic data members被配置于每一个class object之内, static data members则被存放在所有的class object之外。Static和 nonstatic function members也被放在所有的class object之外, <strong>Virtual functions则以两个步骤支持之</strong>:</p>
+<ul>
+<li>每一个 class产生出一堆指向 virtual functions的指针, 放在表格之中, 这个表格被称为 virtual table(vtbl)。</li>
+<li>每一个 class obiect被添加了一个指针, 指向相关的 virtual table。</li>
+</ul>
+<p><img src="/images/blogImg/inside_the_c++_object_model_3.png" alt="C++ 对象模型"></p>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>这些存指针的方法优点是object数据一致性(存的都是指针)、object大小不会因为成员而变化；缺点就是会带来间接性，使得存、取变得麻烦（特别是类继承时）。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>书籍</category>
+      </categories>
+      <tags>
+        <tag>深度探索C++对象模型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>文件描述符</title>
     <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
     <content><![CDATA[<h3 id="Linux文件描述符的本质"><a href="#Linux文件描述符的本质" class="headerlink" title="Linux文件描述符的本质"></a>Linux文件描述符的本质</h3><h4 id="大致认识"><a href="#大致认识" class="headerlink" title="大致认识"></a>大致认识</h4><p><strong>文件描述符是文件编号。</strong></p>
@@ -110,32 +156,6 @@
       </categories>
       <tags>
         <tag>文件描述符</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>状态压缩</title>
-    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
-    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
-<li>用二进制表示状态</li>
-<li>位运算</li>
-</ul>
-<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
-<ul>
-<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
-<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
-<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
-</ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>状态压缩</tag>
       </tags>
   </entry>
   <entry>
@@ -176,6 +196,32 @@
       </categories>
       <tags>
         <tag>端口复用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>状态压缩</title>
+    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
+    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
+<li>用二进制表示状态</li>
+<li>位运算</li>
+</ul>
+<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
+<ul>
+<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
+<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
+<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>状态压缩</tag>
       </tags>
   </entry>
 </search>

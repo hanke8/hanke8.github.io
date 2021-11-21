@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>深度探索C++对象模型-第一章(关于对象)</title>
+    <link href="/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1/"/>
+    <url>/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1/</url>
+    
+    <content type="html"><![CDATA[<h2 id="第一章-关于对象"><a href="#第一章-关于对象" class="headerlink" title="第一章    关于对象"></a>第一章    关于对象</h2><h3 id="C-对象模式（The-C-Object-Model）"><a href="#C-对象模式（The-C-Object-Model）" class="headerlink" title="C++对象模式（The C++ Object Model）"></a>C++对象模式（The C++ Object Model）</h3><h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>一个class对象在机器中是如何被表示的呢？</p><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul><li><p>简单对象模型（A Simple Object Model）</p></li><li><p>表格驱动对象模型（A Table-driven Object Model）</p></li><li><p>C++ 对象模型（The C++ Object Model）</p></li></ul><h4 id="简单对象模型（A-Simple-Object-Model）"><a href="#简单对象模型（A-Simple-Object-Model）" class="headerlink" title="简单对象模型（A Simple Object Model）"></a>简单对象模型（A Simple Object Model）</h4><blockquote><p>在简单模型中，一个object是一些的slots，每个slot指向一个members。Members按其声明此次序，各被指定一个slot，每一个data member或function member都有自己的一个slot。</p></blockquote><p><img src="/images/blogImg/inside_the_c++_object_model_1.png" alt="简单对象模型"></p><ul><li>简单理解起来就是，一个object被表示成了一个指针数组。</li><li>在这个简单模型中, members本身并不放在 object之中,只有“指向的指针”才放在 object内。这么做可以避免 ”members有不同的类型, 因而需要不同的存储空间“ 所招致的问题。</li><li>这个想法被应用到C++的 “指向成员的指针” 观念之中。</li></ul><h4 id="表格驱动对象模型（A-Table-driven-Object-Model）"><a href="#表格驱动对象模型（A-Table-driven-Object-Model）" class="headerlink" title="表格驱动对象模型（A Table-driven Object Model）"></a>表格驱动对象模型（A Table-driven Object Model）</h4><ul><li>object还是一个指针数组，不过存的是Member Data Table和Function Member Table两个表的地址。</li><li>这个想法成为支持virtual functions的一个有效方案。</li></ul><p><img src="/images/blogImg/inside_the_c++_object_model_2.png" alt="表格驱动对象模型"></p><h4 id="C-对象模型（The-C-Object-Model）"><a href="#C-对象模型（The-C-Object-Model）" class="headerlink" title="C++ 对象模型（The C++ Object Model）"></a>C++ 对象模型（The C++ Object Model）</h4><ul><li><p>在此模型中，Nonstatic data members被配置于每一个class object之内, static data members则被存放在所有的class object之外。Static和 nonstatic function members也被放在所有的class object之外, <strong>Virtual functions则以两个步骤支持之</strong>:</p><ul><li>每一个 class产生出一堆指向 virtual functions的指针, 放在表格之中, 这个表格被称为 virtual table(vtbl)。</li><li>每一个 class obiect被添加了一个指针, 指向相关的 virtual table。</li></ul><p><img src="/images/blogImg/inside_the_c++_object_model_3.png" alt="C++ 对象模型"></p></li></ul><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul><li>这些存指针的方法优点是object数据一致性(存的都是指针)、object大小不会因为成员而变化；缺点就是会带来间接性，使得存、取变得麻烦（特别是类继承时）。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>书籍</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>深度探索C++对象模型</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>文件描述符</title>
     <link href="/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/"/>
     <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
