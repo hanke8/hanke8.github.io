@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>&lt;&lt;Effective C++&gt;&gt; 第一章</title>
+    <url>/2021/11/24/Effective%20C++%20%E7%AC%AC%E4%B8%80%E7%AB%A0/</url>
+    <content><![CDATA[<h3 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h3><ul>
+<li>默认的构造函数：要么没有参数，要么每个参数都有缺省值。</li>
+<li>构造函数最好使用explicit关键字，阻止隐式类型转换(使代码更规范，防止意想不到的错误)。</li>
+<li>拷贝构造函数的参数只能是传引用(不能是传值，也不能传指针)。<a href="http://hanke8.cloud/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/">解释</a></li>
+</ul>
+<h3 id="条款01-视-C-为一个语言联邦"><a href="#条款01-视-C-为一个语言联邦" class="headerlink" title="条款01 视 C++ 为一个语言联邦"></a>条款01 视 C++ 为一个语言联邦</h3><ul>
+<li>C++ 是个多重范型编程语言：面向过程、面向对象、函数式、泛型、原编程式，所以他的规约很多，记住四个次语言可以帮助了解 C++：C、Object-Oriented C++、Template C++、STL。</li>
+</ul>
+<h3 id="条款02-尽量以-const、enum、inline-替换-define"><a href="#条款02-尽量以-const、enum、inline-替换-define" class="headerlink" title="条款02 尽量以 const、enum、inline 替换 #define"></a>条款02 尽量以 const、enum、inline 替换 #define</h3><ul>
+<li><p>少用#define的理由如下：</p>
+<ul>
+<li><strong>#define不会进行类型安全检查</strong>，#define AGE 25，AGE无类型，在进行预处理阶段只有AGE被替换成25的过程；而const int age = 25，age有类型(int)，在编译阶段会进行类型安全检查。</li>
+<li><strong>#define不提供封装性</strong>，即不存在private #define 这样的东东，无法用在class内部用#define定义class的专属常量；而class的常量可以用const来声明，比如static const int MAX_SIZE = 1024。</li>
+<li><strong>使用#define定义”宏函数”时，会出其不意的错误有时候</strong>，最好改用inline函数替换#define。</li>
+</ul>
+</li>
+<li><p>他们的根本差别是：前三者是编译器处理的，最后者是预处理器处理的。enum 比 const 更像 #define，比如说 const 定义通常可以求地址或引用，而 enum 不行。</p>
+</li>
+<li><p>inline 函数比宏多了类型安全和可预料性，一个例子是将 i++ 或 ++i 当参数传给宏时，可能导致 ++ 了多次，而传给 inline 函数则不会。</p>
+</li>
+<li><p>请记住：</p>
+<ul>
+<li>对于单纯常量，最好使用const对象或者enum替代#define。</li>
+<li>对于宏函数，最好使用inline函数替换。</li>
+</ul>
+</li>
+</ul>
+<h3 id="条款03-尽可能使用-const"><a href="#条款03-尽可能使用-const" class="headerlink" title="条款03 尽可能使用 const"></a>条款03 尽可能使用 const</h3><ul>
+<li>const 可以帮助编译器侦测错误的用法。例如，令函数返回一个常量值，往往可降低因调用者错误而造成的意外，而又不至于放弃<strong>安全性</strong>和高效性。比如当比较语句少写了一个 = 时：</li>
+</ul>
+<figure class="highlight gcode"><table><tr><td class="code"><pre><code class="hljs gcode"><span class="hljs-comment">// 本意是 ==，结果导致在 a * b 的临时变量上调用 operator=</span><br><span class="hljs-keyword">if</span> <span class="hljs-comment">(a * b = c)</span> ...<br></code></pre></td></tr></table></figure>
+
+<p>​        如果 operator= 返回值不是 const 会导致以上错误代码编译通过！</p>
+<h3 id="条款04-确定对象被使用前已被初始化"><a href="#条款04-确定对象被使用前已被初始化" class="headerlink" title="条款04 确定对象被使用前已被初始化"></a>条款04 确定对象被使用前已被初始化</h3><ul>
+<li><p><strong>c++规定初始化发生在进入构造函数之前</strong>。</p>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> A&#123;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-built_in">int</span> x;<br>	<span class="hljs-built_in">int</span> y;<br>	<span class="hljs-comment">// 赋值</span><br>    <span class="hljs-constructor">A()</span> &#123;<br>    	x = <span class="hljs-number">0</span>;		<span class="hljs-comment">// 注意！这是赋值不是初始化。（在进入构造函数之前就进行了初始化）</span><br>    	y = <span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-comment">// 初始化</span><br>    <span class="hljs-constructor">A()</span>: x(<span class="hljs-number">0</span>), y(<span class="hljs-number">0</span>) &#123;	<span class="hljs-comment">// 这才是初始化，这样比赋值的效率高（因为赋值前就进行了初始化）</span><br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure></li>
+<li><p>c++对于处于不同编译单元的non-local static对象的初始化相对顺序无明确定义。</p>
+<ul>
+<li>注：local static对象是指在函数内声明定义的static对象，并通过该函数返回该对象的引用。</li>
+<li>带来问题：比如两个源文件分别定义了non-local static对象a, b，其中a用到了b，此时b可能还未初始化。</li>
+<li>解决方案：为避免跨编译单元的初始化次序问题，用 local static 对象代替 non-local static 对象，参考 Singleton 模式常见实现。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">XClass&amp; <span class="hljs-function"><span class="hljs-title">GetInstance</span>(<span class="hljs-params"></span>)</span><br>&#123;<br>    <span class="hljs-keyword">static</span> XClass instance;<br>    <span class="hljs-keyword">return</span> instance;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://segmentfault.com/a/1190000038888539">https://segmentfault.com/a/1190000038888539</a></li>
+<li>《Effective C++》第一章</li>
+</ul>
+]]></content>
+      <categories>
+        <category>书籍</category>
+      </categories>
+      <tags>
+        <tag>&lt;&lt;Effective C++&gt;&gt;</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c++引用的本质</title>
+    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
+    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><strong>引用的本质是一个指针常量</strong></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
+<ul>
+<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
+</ul>
+</li>
+<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>c++引用的本质</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>0-1背包</title>
     <url>/2021/11/16/0-1%E8%83%8C%E5%8C%85/</url>
     <content><![CDATA[<h3 id="动态规划背包问题"><a href="#动态规划背包问题" class="headerlink" title="动态规划背包问题"></a>动态规划背包问题</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
@@ -31,49 +113,6 @@
       </tags>
   </entry>
   <entry>
-    <title>c++引用的本质</title>
-    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
-    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
-<li><strong>引用的本质是一个指针常量</strong></li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
-<ul>
-<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
-</ul>
-</li>
-<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>c++引用的本质</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>epolloneshot事件</title>
-    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
-<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux网络编程</category>
-      </categories>
-      <tags>
-        <tag>epolloneshot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leetcode78.子集-求子集的两个模板</title>
     <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
@@ -94,6 +133,26 @@
       </categories>
       <tags>
         <tag>二进制状态编码 回溯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>epolloneshot事件</title>
+    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
+<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux网络编程</category>
+      </categories>
+      <tags>
+        <tag>epolloneshot</tag>
       </tags>
   </entry>
   <entry>
@@ -172,8 +231,8 @@
       </tags>
   </entry>
   <entry>
-    <title>深度探索C++对象模型-第一章(关于对象)</title>
-    <url>/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1/</url>
+    <title>&lt;&lt;深度探索C++对象模型&gt;&gt; 第一章(关于对象)</title>
+    <url>/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%B8%80%E7%AB%A0/</url>
     <content><![CDATA[<h2 id="第一章-关于对象"><a href="#第一章-关于对象" class="headerlink" title="第一章    关于对象"></a>第一章    关于对象</h2><h3 id="C-对象模式（The-C-Object-Model）"><a href="#C-对象模式（The-C-Object-Model）" class="headerlink" title="C++对象模式（The C++ Object Model）"></a>C++对象模式（The C++ Object Model）</h3><h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>一个class对象在机器中是如何被表示的呢？</p>
 <h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
 <li><p>简单对象模型（A Simple Object Model）</p>
@@ -248,7 +307,7 @@
         <category>书籍</category>
       </categories>
       <tags>
-        <tag>深度探索C++对象模型</tag>
+        <tag>&lt;&lt;深度探索C++对象模型&gt;&gt;</tag>
       </tags>
   </entry>
   <entry>

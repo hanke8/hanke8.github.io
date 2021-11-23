@@ -18,7 +18,7 @@
   <meta name="author" content="Hanke">
   <meta name="keywords" content="">
   
-  <title>拷贝构造函数参数 - Hanke&#39;s Blog</title>
+  <title>&lt;&lt;深度探索C++对象模型&gt;&gt; 第一章(关于对象) - Hanke&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -155,9 +155,9 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="拷贝构造函数参数">
+            <span class="h2" id="subtitle" title="<<深度探索C++对象模型>> 第一章(关于对象)">
               
-                拷贝构造函数参数
+                <<深度探索C++对象模型>> 第一章(关于对象)
               
             </span>
 
@@ -167,8 +167,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-11-22 18:28" pubdate>
-        2021年11月22日 晚上
+      <time datetime="2021-11-21 23:04" pubdate>
+        2021年11月21日 晚上
       </time>
     </span>
   
@@ -179,7 +179,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      358 字
+      1.1k 字
     </span>
   
 
@@ -189,7 +189,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      12
        分钟
     </span>
   
@@ -231,34 +231,78 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">拷贝构造函数参数</h1>
+            <h1 style="display: none">&lt;&lt;深度探索C++对象模型&gt;&gt; 第一章(关于对象)</h1>
             
             <div class="markdown-body">
-              <h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
-<li><strong>拷贝构造函数的参数必须是引用</strong></li>
-</ul>
-<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
-<li><p>为什么不能是传值？</p>
-<ul>
-<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
-<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
-</ul>
+              <h2 id="第一章-关于对象"><a href="#第一章-关于对象" class="headerlink" title="第一章    关于对象"></a>第一章    关于对象</h2><h3 id="C-对象模式（The-C-Object-Model）"><a href="#C-对象模式（The-C-Object-Model）" class="headerlink" title="C++对象模式（The C++ Object Model）"></a>C++对象模式（The C++ Object Model）</h3><h4 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h4><p>一个class对象在机器中是如何被表示的呢？</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li><p>简单对象模型（A Simple Object Model）</p>
 </li>
-<li><p>为什么不能是传指针？</p>
-<ul>
-<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
-<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
-<li>代码验证：<ul>
-<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
-</ul>
+<li><p>表格驱动对象模型（A Table-driven Object Model）</p>
+</li>
+<li><p>C++ 对象模型（The C++ Object Model）</p>
 </li>
 </ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
+<h4 id="简单对象模型（A-Simple-Object-Model）"><a href="#简单对象模型（A-Simple-Object-Model）" class="headerlink" title="简单对象模型（A Simple Object Model）"></a>简单对象模型（A Simple Object Model）</h4><blockquote>
+<p>在简单模型中，一个object是一些的slots，每个slot指向一个members。Members按其声明此次序，各被指定一个slot，每一个data member或function member都有自己的一个slot。</p>
+</blockquote>
+<p><img src="/images/blogImg/inside_the_c++_object_model_1.png" srcset="/img/loading.gif" lazyload alt="简单对象模型"></p>
+<ul>
+<li>简单理解起来就是，一个object被表示成了一个指针数组。</li>
+<li>在这个简单模型中, members本身并不放在 object之中,只有“指向的指针”才放在 object内。这么做可以避免 ”members有不同的类型, 因而需要不同的存储空间“ 所招致的问题。</li>
+<li>这个想法被应用到C++的 “指向成员的指针” 观念之中。</li>
 </ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
+<h4 id="表格驱动对象模型（A-Table-driven-Object-Model）"><a href="#表格驱动对象模型（A-Table-driven-Object-Model）" class="headerlink" title="表格驱动对象模型（A Table-driven Object Model）"></a>表格驱动对象模型（A Table-driven Object Model）</h4><ul>
+<li>object还是一个指针数组，不过存的是Member Data Table和Function Member Table两个表的地址。</li>
+<li>这种模型保证了不同类型的对象具有相同的内存布局。</li>
+<li>这个想法成为支持virtual functions的一个有效方案。</li>
 </ul>
+<p><img src="/images/blogImg/inside_the_c++_object_model_2.png" srcset="/img/loading.gif" lazyload alt="表格驱动对象模型"></p>
+<h4 id="C-对象模型（The-C-Object-Model）"><a href="#C-对象模型（The-C-Object-Model）" class="headerlink" title="C++ 对象模型（The C++ Object Model）"></a>C++ 对象模型（The C++ Object Model）</h4><ul>
+<li><p>在此模型中，Nonstatic data members被配置于每一个class object之内, static data members则被存放在所有的class object之外。Static和 nonstatic function members也被放在所有的class object之外, <strong>Virtual functions则以两个步骤支持之</strong>:</p>
+<ul>
+<li>每一个 class产生出一堆指向 virtual functions的指针, 放在表格之中, 这个表格被称为 virtual table(vtbl)。</li>
+<li>每一个 class obiect被添加了一个指针, 指向相关的 virtual table。</li>
+</ul>
+<p><img src="/images/blogImg/inside_the_c++_object_model_3.png" srcset="/img/loading.gif" lazyload alt="C++ 对象模型"></p>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>ASOM和ATOM方法优点是object数据一致性(存的都是指针)，可以避免 ”members有不同的类型, 因而需要不同的存储空间“ 所招致的问题；缺点就是会带来间接性，使得存、取变得麻烦（特别是类继承时，如果在派生类里面存一个指向基类的指针）。</li>
+<li>在C++中以类的形式实现对象之后，会增加多少布局成本？<ul>
+<li>一般来说，不会增加任何成本。三个 data members 直接内含于一个 class object 中，就像 C 中的 struct 一样。而 member functions 虽然含在 class 的声明中，却不出现在 object 中 （更像是类命名空间中的普通函数）。看，类的封装居然没有带来任何额外的成本。</li>
+</ul>
+</li>
+<li>C++在内存布局以及存取时间上的主要额外负担都是由 virtual 引起的，包括： <ul>
+<li>virtual function 机制：引起了保存 vtable 和透过 vtable 找到函数地址。</li>
+<li>virtual base class 机制：引起了透过指针来找到基类的成员。</li>
+</ul>
+</li>
+<li>引入继承后的对象模型成本：<ul>
+<li>如果是普通的继承，父对象被直接包含在子对象里面，这样对父对象的存取也是直接进行的， 没有额外的成本。</li>
+<li>如果是虚拟继承，则父对象会由一个指针被指出来，这样的话对父对象的存取就添加了一层间接性，必须经由一个指针来访问，添加了一次间接的额外成本。</li>
+</ul>
+</li>
+<li>一个对象的内存布局大小（通常由 3 部分组成）：<ul>
+<li>其 nonstatic data member 的总和大小。</li>
+<li>任何由于<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46155255/article/details/108297804">字节对齐</a>所需要的填补上去的空间。</li>
+<li>加上了为了支持 virtual 机制而引起的额外负担。</li>
+<li>这也印证了前面的一个结论：C++中的额外成本通常都是由于 virtual 机制所引起的。</li>
+</ul>
+</li>
+</ul>
+<h3 id="多态的实现"><a href="#多态的实现" class="headerlink" title="多态的实现"></a>多态的实现</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><ul>
+<li>指针类型、cast(类型转化)只影响编译器对内存的解释(大小和内容)。</li>
+</ul>
+<h4 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h4><ul>
+<li><strong>多态只能由指针或引用来实现</strong>，原因如下：<ul>
+<li> 指针和引用（通常以指针来实现）的大小是固定的（一个 word），而对象的大小却是可变的。其类的指针和引用可以指向（或引用）子类，但是基类的对象永远也只能是基类，没有变化则不可能引发多态。</li>
+<li>一个 point 或 reference 绝不会引发任何” “ 与类型有关的内存委托操作 ，在指针类型转换时 会受到的改变的只有它们所指向内存的解释方式而已。（例如指针绝不会引发 slice，因为它 们大小相同）</li>
+</ul>
+</li>
+<li>思考(加深理解)：</li>
+</ul>
+<p><img src="/images/blogImg/inside_the_c++_object_model_4.png" srcset="/img/loading.gif" lazyload alt="思考"></p>
 
             </div>
             <hr>
@@ -268,7 +312,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+                      <a class="hover-with-bg" href="/categories/%E4%B9%A6%E7%B1%8D/">书籍</a>
                     
                   </div>
                 
@@ -276,7 +320,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/">拷贝构造函数参数</a>
+                      <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/"><<深度探索C++对象模型>></a>
                     
                   </div>
                 
@@ -293,9 +337,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/">
+                      <a href="/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">c++引用的本质</span>
+                        <span class="hidden-mobile">拷贝构造函数参数</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -303,8 +347,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%B8%80%E7%AB%A0/">
-                        <span class="hidden-mobile"><<深度探索C++对象模型>> 第一章(关于对象)</span>
+                      <a href="/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/">
+                        <span class="hidden-mobile">文件描述符</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
