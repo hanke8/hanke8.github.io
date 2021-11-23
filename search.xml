@@ -225,7 +225,7 @@
 </li>
 <li>一个对象的内存布局大小（通常由 3 部分组成）：<ul>
 <li>其 nonstatic data member 的总和大小。</li>
-<li>任何由于**<a href="https://blog.csdn.net/weixin_46155255/article/details/108297804">字节对齐</a>**所需要的填补上去的空间。</li>
+<li>任何由于<a href="https://blog.csdn.net/weixin_46155255/article/details/108297804">字节对齐</a>所需要的填补上去的空间。</li>
 <li>加上了为了支持 virtual 机制而引起的额外负担。</li>
 <li>这也印证了前面的一个结论：C++中的额外成本通常都是由于 virtual 机制所引起的。</li>
 </ul>
