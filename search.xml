@@ -51,6 +51,29 @@
       </tags>
   </entry>
   <entry>
+    <title>c++引用的本质</title>
+    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
+    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><strong>引用的本质是一个指针常量</strong></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
+<ul>
+<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
+</ul>
+</li>
+<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>c++引用的本质</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode78.子集-求子集的两个模板</title>
     <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
@@ -85,6 +108,67 @@
       </categories>
       <tags>
         <tag>leetcode周赛</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>拷贝构造函数参数</title>
+    <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
+<li><strong>拷贝构造函数的参数必须是引用</strong></li>
+</ul>
+<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
+<li><p>为什么不能是传值？</p>
+<ul>
+<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
+<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
+</ul>
+</li>
+<li><p>为什么不能是传指针？</p>
+<ul>
+<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
+<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
+<li>代码验证：<ul>
+<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
+<li><a href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>拷贝构造函数参数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>文件描述符</title>
+    <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h3 id="Linux文件描述符的本质"><a href="#Linux文件描述符的本质" class="headerlink" title="Linux文件描述符的本质"></a>Linux文件描述符的本质</h3><h4 id="大致认识"><a href="#大致认识" class="headerlink" title="大致认识"></a>大致认识</h4><p><strong>文件描述符是文件编号。</strong></p>
+<p>Linux 中一切皆文件，比如 C++ 源文件、视频文件、Shell脚本、可执行文件等，就连键盘、显示器、鼠标等硬件设备也都是文件。</p>
+<p>一个 Linux 进程可以打开成百上千个文件，为了表示和区分已经打开的文件，Linux 会给每个文件分配一个编号（一个 ID），这个编号就是一个整数，被称为文件描述符（File Descriptor）。</p>
+<h4 id="进一步认识"><a href="#进一步认识" class="headerlink" title="进一步认识"></a>进一步认识</h4><p><strong>文件描述符是PCB内部文件描述符表的下标，与文件指针一一映射。</strong></p>
+<p>一个 Linux 进程启动后，会在内核空间中创建一个 PCB 控制块，PCB 内部有一个文件描述符表（File descriptor table），记录着当前进程所有可用的文件描述符，也即当前进程所有打开的文件。</p>
+<p>除了文件描述符表，系统还需要维护另外两张表：</p>
+<ul>
+<li>打开文件表（Open file table）</li>
+<li>i-node 表（i-node table）</li>
+</ul>
+<p><img src="/images/blogImg/fd.png" alt="三者关系"></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="http://c.biancheng.net/view/3066.html">http://c.biancheng.net/view/3066.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux网络编程</category>
+      </categories>
+      <tags>
+        <tag>文件描述符</tag>
       </tags>
   </entry>
   <entry>
@@ -134,28 +218,29 @@
       </tags>
   </entry>
   <entry>
-    <title>文件描述符</title>
-    <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h3 id="Linux文件描述符的本质"><a href="#Linux文件描述符的本质" class="headerlink" title="Linux文件描述符的本质"></a>Linux文件描述符的本质</h3><h4 id="大致认识"><a href="#大致认识" class="headerlink" title="大致认识"></a>大致认识</h4><p><strong>文件描述符是文件编号。</strong></p>
-<p>Linux 中一切皆文件，比如 C++ 源文件、视频文件、Shell脚本、可执行文件等，就连键盘、显示器、鼠标等硬件设备也都是文件。</p>
-<p>一个 Linux 进程可以打开成百上千个文件，为了表示和区分已经打开的文件，Linux 会给每个文件分配一个编号（一个 ID），这个编号就是一个整数，被称为文件描述符（File Descriptor）。</p>
-<h4 id="进一步认识"><a href="#进一步认识" class="headerlink" title="进一步认识"></a>进一步认识</h4><p><strong>文件描述符是PCB内部文件描述符表的下标，与文件指针一一映射。</strong></p>
-<p>一个 Linux 进程启动后，会在内核空间中创建一个 PCB 控制块，PCB 内部有一个文件描述符表（File descriptor table），记录着当前进程所有可用的文件描述符，也即当前进程所有打开的文件。</p>
-<p>除了文件描述符表，系统还需要维护另外两张表：</p>
-<ul>
-<li>打开文件表（Open file table）</li>
-<li>i-node 表（i-node table）</li>
+    <title>状态压缩</title>
+    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
+    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
+<li>用二进制表示状态</li>
+<li>位运算</li>
 </ul>
-<p><img src="/images/blogImg/fd.png" alt="三者关系"></p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="http://c.biancheng.net/view/3066.html">http://c.biancheng.net/view/3066.html</a></li>
+<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
+<ul>
+<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
+<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
+<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
 </ul>
 ]]></content>
       <categories>
-        <category>Linux网络编程</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>文件描述符</tag>
+        <tag>状态压缩</tag>
       </tags>
   </entry>
   <entry>
@@ -196,68 +281,6 @@
       </categories>
       <tags>
         <tag>端口复用</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>状态压缩</title>
-    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
-    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
-<li>用二进制表示状态</li>
-<li>位运算</li>
-</ul>
-<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
-<ul>
-<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
-<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
-<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
-</ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>状态压缩</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>拷贝构造函数参数</title>
-    <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
-<li><strong>拷贝构造函数的参数必须是引用</strong></li>
-</ul>
-<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
-<li><p>为什么不能是传值？</p>
-<ul>
-<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
-<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
-</ul>
-</li>
-<li><p>为什么不能是传指针？</p>
-<ul>
-<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
-<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
-<li>代码验证：<ul>
-<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
-<li><a href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>拷贝构造函数参数</tag>
       </tags>
   </entry>
 </search>

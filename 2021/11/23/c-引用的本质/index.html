@@ -18,9 +18,25 @@
   <meta name="author" content="Hanke">
   <meta name="keywords" content="">
   
-  <title>分类 - Hanke&#39;s Blog</title>
+  <title>c++引用的本质 - Hanke&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
 
@@ -134,16 +150,61 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/images/22.jpg') no-repeat center center;
+         style="background: url('/images/1.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title=" ">
+            <span class="h2" id="subtitle" title="c++引用的本质">
               
-                 
+                c++引用的本质
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-23 11:48" pubdate>
+        2021年11月23日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      167 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -160,219 +221,135 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">c++引用的本质</h1>
+            
+            <div class="markdown-body">
+              <h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><strong>引用的本质是一个指针常量</strong></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
+<ul>
+<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
+</ul>
+</li>
+<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
+</li>
+</ul>
 
-
-
-
-
-
-<div class="category-list">
-  
-  
-  
-  
-    
-    
-    <div class="category row">
-      <a
-        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-046a899ee7a6ec88d370211a518c9e80" role="tab" data-toggle="collapse" href="#collapse-046a899ee7a6ec88d370211a518c9e80"
-        aria-expanded="false"
-      >
-        算法
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-count col-2 col-md-1">
-        <i class="iconfont icon-articles"></i>
-        <span>4</span>
-      </a>
-      <div class="category-collapse">
-        
-        
-          
-  <div id="collapse-046a899ee7a6ec88d370211a518c9e80" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-046a899ee7a6ec88d370211a518c9e80">
-    
-    
-      
-      
-        <a href="/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/" class="list-group-item list-group-item-action">
-          <span class="category-post">状态压缩</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2021/11/16/0-1%E8%83%8C%E5%8C%85/" class="list-group-item list-group-item-action">
-          <span class="category-post">0-1背包</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/" class="list-group-item list-group-item-action">
-          <span class="category-post">leetcode78.子集-求子集的两个模板</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/" class="list-group-item list-group-item-action">
-          <span class="category-post">leetcode第241场周赛</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
-    <div class="category row">
-      <a
-        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-195eb419639d73192945705b06502324" role="tab" data-toggle="collapse" href="#collapse-195eb419639d73192945705b06502324"
-        aria-expanded="false"
-      >
-        杂谈
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      <a href="/categories/%E6%9D%82%E8%B0%88/" class="category-count col-2 col-md-1">
-        <i class="iconfont icon-articles"></i>
-        <span>3</span>
-      </a>
-      <div class="category-collapse">
-        
-        
-          
-  <div id="collapse-195eb419639d73192945705b06502324" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-195eb419639d73192945705b06502324">
-    
-    
-      
-      
-        <a href="/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/" class="list-group-item list-group-item-action">
-          <span class="category-post">c++引用的本质</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/" class="list-group-item list-group-item-action">
-          <span class="category-post">拷贝构造函数参数</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/" class="list-group-item list-group-item-action">
-          <span class="category-post">端口复用</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
-    <div class="category row">
-      <a
-        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-9e5c0beac1360e56a9b62711c49e927e" role="tab" data-toggle="collapse" href="#collapse-9e5c0beac1360e56a9b62711c49e927e"
-        aria-expanded="false"
-      >
-        Linux网络编程
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      <a href="/categories/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="category-count col-2 col-md-1">
-        <i class="iconfont icon-articles"></i>
-        <span>2</span>
-      </a>
-      <div class="category-collapse">
-        
-        
-          
-  <div id="collapse-9e5c0beac1360e56a9b62711c49e927e" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-9e5c0beac1360e56a9b62711c49e927e">
-    
-    
-      
-      
-        <a href="/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/" class="list-group-item list-group-item-action">
-          <span class="category-post">文件描述符</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/" class="list-group-item list-group-item-action">
-          <span class="category-post">epolloneshot事件</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
-    <div class="category row">
-      <a
-        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
-        id="heading-72191b3a445883b1eda3100e87d5ab69" role="tab" data-toggle="collapse" href="#collapse-72191b3a445883b1eda3100e87d5ab69"
-        aria-expanded="false"
-      >
-        书籍
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      <a href="/categories/%E4%B9%A6%E7%B1%8D/" class="category-count col-2 col-md-1">
-        <i class="iconfont icon-articles"></i>
-        <span>1</span>
-      </a>
-      <div class="category-collapse">
-        
-        
-          
-  <div id="collapse-72191b3a445883b1eda3100e87d5ab69" class="collapse in" role="tabpanel"
-       aria-labelledby="heading-72191b3a445883b1eda3100e87d5ab69">
-    
-    
-      
-      
-        <a href="/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1/" class="list-group-item list-group-item-action">
-          <span class="category-post">深度探索C++对象模型-第一章(关于对象)</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-</div>
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/">c++引用的本质</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/">
+                        <span class="hidden-mobile">拷贝构造函数参数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'han-ke/comment-utterances');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -476,9 +453,15 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 
