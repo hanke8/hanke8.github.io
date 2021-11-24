@@ -176,6 +176,65 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/11/25/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" target="_self">
+          inline内联函数
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/25/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" target="_self">
+          
+          
+            
+          
+          inline内联函数介绍
+函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。
+
+(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。
+
+编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）
+
+
+用法
+关键字inline 必须与函数定义体放在一起才能使函数成为内联
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-25 00:22" pubdate>
+              2021-11-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/">inline内联函数</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/11/24/Effective%20C++%20%E7%AC%AC%E4%B8%80%E7%AB%A0/" target="_self">
           《Effective C++》第一章
         </a>
@@ -677,59 +736,6 @@ LC416.分割等和子集
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/0-1%E8%83%8C%E5%8C%85/">0-1背包</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/" target="_self">
-          leetcode78.子集-求子集的两个模板
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/" target="_self">
-          
-          
-            
-          
-          题目
-解法1：二进制状态编码分析· 原序列中的每个数字有两种状态：在子集中、不在子集中；· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];· 例如集合{5，2，9}：
-
-代码1234567891011121314151617class So
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-05-16 20:29" pubdate>
-              2021-05-16
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%8A%B6%E6%80%81%E7%BC%96%E7%A0%81-%E5%9B%9E%E6%BA%AF/">二进制状态编码 回溯</a>
             
           </div>
         
