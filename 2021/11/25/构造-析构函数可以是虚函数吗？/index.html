@@ -234,11 +234,11 @@
             <h1 style="display: none">构造/析构函数可以是虚函数吗？</h1>
             
             <div class="markdown-body">
-              <h1 id="构造-析构函数可以是虚函数吗？"><a href="#构造-析构函数可以是虚函数吗？" class="headerlink" title="构造/析构函数可以是虚函数吗？"></a>构造/析构函数可以是虚函数吗？</h1><h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ul>
+              <h2 id="构造-析构函数可以是虚函数吗？"><a href="#构造-析构函数可以是虚函数吗？" class="headerlink" title="构造/析构函数可以是虚函数吗？"></a>构造/析构函数可以是虚函数吗？</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
 <li><strong>构造函数不可以是虚函数。</strong></li>
 <li><strong>当有派生类，且派生类中申请了内存，那析构函数必须是虚函数（防止内存泄露）。</strong></li>
 </ul>
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><ul>
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><ul>
 <li>构造函数不能是虚函数的原因：<ul>
 <li>从vptr角度解释：<ul>
 <li>虚函数的调用要通过查找对象内部的虚指针指向的虚函数表。若构造函数是虚函数，则要去查找vptr，但此时对象没有初始化，没有vptr。</li>
@@ -259,7 +259,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/libaineu2004/article/details/85684224">https://blog.csdn.net/libaineu2004/article/details/85684224</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28584889/article/details/88749862">https://blog.csdn.net/qq_28584889/article/details/88749862</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42333471/article/details/88067951">https://blog.csdn.net/weixin_42333471/article/details/88067951</a></li>
