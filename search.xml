@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>c++引用的本质</title>
+    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
+    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><strong>引用的本质是一个指针常量</strong></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
+<ul>
+<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
+</ul>
+</li>
+<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>c++引用的本质</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>0-1背包</title>
     <url>/2021/11/16/0-1%E8%83%8C%E5%8C%85/</url>
     <content><![CDATA[<h3 id="动态规划背包问题"><a href="#动态规划背包问题" class="headerlink" title="动态规划背包问题"></a>动态规划背包问题</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
@@ -90,29 +113,6 @@
       </tags>
   </entry>
   <entry>
-    <title>c++引用的本质</title>
-    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
-    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
-<li><strong>引用的本质是一个指针常量</strong></li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
-<ul>
-<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
-</ul>
-</li>
-<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>c++引用的本质</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>epolloneshot事件</title>
     <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
     <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
@@ -136,11 +136,11 @@
     <title>inline内联函数</title>
     <url>/2021/11/25/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h2 id="inline内联函数"><a href="#inline内联函数" class="headerlink" title="inline内联函数"></a>inline内联函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
-<li><p>函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。</p>
-</li>
-<li><p><strong>(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。</strong></p>
-</li>
-<li><p>编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）</p>
+<li>函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。</li>
+<li><strong>(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。</strong></li>
+<li>编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）<ul>
+<li>注：inline可以修饰虚函数，但是当虚函数表现多态性的时候不能内联。(因为内联是编译器，多态是运行期)</li>
+</ul>
 </li>
 </ul>
 <h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ul>
@@ -176,6 +176,20 @@
       </tags>
   </entry>
   <entry>
+    <title>leetcode第241场周赛</title>
+    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
+    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
+<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode周赛</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode78.子集-求子集的两个模板</title>
     <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
@@ -196,56 +210,6 @@
       </categories>
       <tags>
         <tag>二进制状态编码 回溯</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode第241场周赛</title>
-    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
-    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
-<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>leetcode周赛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>拷贝构造函数参数</title>
-    <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
-<li><strong>拷贝构造函数的参数必须是引用</strong></li>
-</ul>
-<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
-<li><p>为什么不能是传值？</p>
-<ul>
-<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
-<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
-</ul>
-</li>
-<li><p>为什么不能是传指针？</p>
-<ul>
-<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
-<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
-<li>代码验证：<ul>
-<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
-<li><a href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>拷贝构造函数参数</tag>
       </tags>
   </entry>
   <entry>
@@ -312,6 +276,42 @@
       </categories>
       <tags>
         <tag>构造、析构函数可以是虚函数？</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>拷贝构造函数参数</title>
+    <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
+<li><strong>拷贝构造函数的参数必须是引用</strong></li>
+</ul>
+<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
+<li><p>为什么不能是传值？</p>
+<ul>
+<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
+<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
+</ul>
+</li>
+<li><p>为什么不能是传指针？</p>
+<ul>
+<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
+<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
+<li>代码验证：<ul>
+<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
+<li><a href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>拷贝构造函数参数</tag>
       </tags>
   </entry>
   <entry>
@@ -386,6 +386,52 @@
 <li>思考(加深理解)：</li>
 </ul>
 <p><img src="/images/blogImg/inside_the_c++_object_model_4.png" alt="思考"></p>
+]]></content>
+      <categories>
+        <category>书籍</category>
+      </categories>
+      <tags>
+        <tag>《深度探索C++对象模型》</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《深度探索C++对象模型》 第二章(构造函数语意学)</title>
+    <url>/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
+    <content><![CDATA[<h2 id="第二章-构造函数语意学"><a href="#第二章-构造函数语意学" class="headerlink" title="第二章    构造函数语意学"></a>第二章    构造函数语意学</h2><h3 id="Default-Constructor-的构造操作"><a href="#Default-Constructor-的构造操作" class="headerlink" title="Default Constructor 的构造操作"></a>Default Constructor 的构造操作</h3><h4 id="C-新手常见的-2-个误区"><a href="#C-新手常见的-2-个误区" class="headerlink" title="C++新手常见的 2 个误区"></a>C++新手常见的 2 个误区</h4><ul>
+<li>ERROR: 如果 class 没有定义 default constructor 编译器就一定会提供一个。</li>
+<li>ERROR: 编译器合成出来的默认构造函数会明确设定每一个 data member 的默认值。</li>
+</ul>
+<h4 id="编译器什么情况下会合成默认构造函数？"><a href="#编译器什么情况下会合成默认构造函数？" class="headerlink" title="编译器什么情况下会合成默认构造函数？"></a>编译器什么情况下会合成默认构造函数？</h4><ul>
+<li>首先明确一点，<strong>默认的构造函数只有在编译器需要的时候才被合成出来</strong>，当然前提是程序员没有写默认构造函数。如果写了，那编译器就不会再去合成，最多是会在用户代码前安插一些代码。</li>
+<li>只有以下四种情况(编译器会合成默认构造函数)：<ul>
+<li>带有 Default Constructor 的 Member Class Object。(编译器需要，因为编译器需要调用成员类的构造函数)</li>
+<li>带有 Default Constructor 的 Base Class。(编译器需要，因为编译器需要调用成员类的构造函数)</li>
+<li>带有 Virtual Function 的 Class。(编译器需要，因为编译器需要正确设置好vptr)</li>
+<li>带有 Virtual Base Class 的 Class。**(// todo，编译器需要，因为编译器要保证虚基类在派生类中的位置在执行期准备妥当)**</li>
+</ul>
+</li>
+<li>注：在合成的 default constructor 中，只有 base class subobjects 和 member class objects 会被初始化。所有其他的 nonstatic data member 不会被初始化(如整数、整数指针、整数数组等)。因为这是程序员的需要，而不是编译器的需要。</li>
+</ul>
+<h4 id="成员初始化列表"><a href="#成员初始化列表" class="headerlink" title="成员初始化列表"></a>成员初始化列表</h4><ul>
+<li><strong>以 member 声明的次序来决定初始化次序，而不是初始化列表中的排列次序来决定次序。</strong></li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> A &#123;<br>public:<br>    <span class="hljs-built_in">int</span> i;<br>    <span class="hljs-built_in">int</span> j;<br>    <span class="hljs-constructor">A(<span class="hljs-params">int</span> <span class="hljs-params">val</span>)</span>: j(<span class="hljs-keyword">val</span>), i(j) &#123;&#125;		<span class="hljs-comment">// 虽然j写在了前面，但实际还是i先初始化，因为i先声明。</span><br>&#125;;									<span class="hljs-comment">// 如果不注意这一陷阱，会导致程序和我们预想的不一致。</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Copy-Constructor-的构造操作"><a href="#Copy-Constructor-的构造操作" class="headerlink" title="Copy Constructor 的构造操作"></a>Copy Constructor 的构造操作</h3><h4 id="编译器什么情况下会合成默认拷贝构造函数？"><a href="#编译器什么情况下会合成默认拷贝构造函数？" class="headerlink" title="编译器什么情况下会合成默认拷贝构造函数？"></a>编译器什么情况下会合成默认拷贝构造函数？</h4><ul>
+<li>当 class 内含一个 member object 而后者声明了（也可能由于 nontrivial 语意从而编译器真正合成出来的）一个 copy constructor 时。</li>
+<li>当 class 继承自一个存在有 copy constructor 的 base class（同样也可能是合成）时。</li>
+<li>当 class 声明了一个或多个 virtual functions 时。</li>
+<li>当 class 派生自一个继承串链，其中一个或多个 virtual base classes 时。</li>
+</ul>
+<h4 id="什么时候调用拷贝构造函数？"><a href="#什么时候调用拷贝构造函数？" class="headerlink" title="什么时候调用拷贝构造函数？"></a>什么时候调用拷贝构造函数？</h4><ul>
+<li>一个类以另一个类作为参数显示初始化。</li>
+<li>作为函数的参数。</li>
+<li>作为函数的返回值。</li>
+</ul>
 ]]></content>
       <categories>
         <category>书籍</category>

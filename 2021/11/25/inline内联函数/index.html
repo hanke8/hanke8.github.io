@@ -179,7 +179,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      473 字
+      514 字
     </span>
   
 
@@ -235,11 +235,11 @@
             
             <div class="markdown-body">
               <h2 id="inline内联函数"><a href="#inline内联函数" class="headerlink" title="inline内联函数"></a>inline内联函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
-<li><p>函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。</p>
-</li>
-<li><p><strong>(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。</strong></p>
-</li>
-<li><p>编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）</p>
+<li>函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。</li>
+<li><strong>(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。</strong></li>
+<li>编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）<ul>
+<li>注：inline可以修饰虚函数，但是当虚函数表现多态性的时候不能内联。(因为内联是编译器，多态是运行期)</li>
+</ul>
 </li>
 </ul>
 <h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ul>

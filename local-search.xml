@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>《深度探索C++对象模型》 第二章(构造函数语意学)</title>
+    <link href="/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/"/>
+    <url>/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="第二章-构造函数语意学"><a href="#第二章-构造函数语意学" class="headerlink" title="第二章    构造函数语意学"></a>第二章    构造函数语意学</h2><h3 id="Default-Constructor-的构造操作"><a href="#Default-Constructor-的构造操作" class="headerlink" title="Default Constructor 的构造操作"></a>Default Constructor 的构造操作</h3><h4 id="C-新手常见的-2-个误区"><a href="#C-新手常见的-2-个误区" class="headerlink" title="C++新手常见的 2 个误区"></a>C++新手常见的 2 个误区</h4><ul><li>ERROR: 如果 class 没有定义 default constructor 编译器就一定会提供一个。</li><li>ERROR: 编译器合成出来的默认构造函数会明确设定每一个 data member 的默认值。</li></ul><h4 id="编译器什么情况下会合成默认构造函数？"><a href="#编译器什么情况下会合成默认构造函数？" class="headerlink" title="编译器什么情况下会合成默认构造函数？"></a>编译器什么情况下会合成默认构造函数？</h4><ul><li>首先明确一点，<strong>默认的构造函数只有在编译器需要的时候才被合成出来</strong>，当然前提是程序员没有写默认构造函数。如果写了，那编译器就不会再去合成，最多是会在用户代码前安插一些代码。</li><li>只有以下四种情况(编译器会合成默认构造函数)：<ul><li>带有 Default Constructor 的 Member Class Object。(编译器需要，因为编译器需要调用成员类的构造函数)</li><li>带有 Default Constructor 的 Base Class。(编译器需要，因为编译器需要调用成员类的构造函数)</li><li>带有 Virtual Function 的 Class。(编译器需要，因为编译器需要正确设置好vptr)</li><li>带有 Virtual Base Class 的 Class。**(// todo，编译器需要，因为编译器要保证虚基类在派生类中的位置在执行期准备妥当)**</li></ul></li><li>注：在合成的 default constructor 中，只有 base class subobjects 和 member class objects 会被初始化。所有其他的 nonstatic data member 不会被初始化(如整数、整数指针、整数数组等)。因为这是程序员的需要，而不是编译器的需要。</li></ul><h4 id="成员初始化列表"><a href="#成员初始化列表" class="headerlink" title="成员初始化列表"></a>成员初始化列表</h4><ul><li><strong>以 member 声明的次序来决定初始化次序，而不是初始化列表中的排列次序来决定次序。</strong></li></ul><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> A &#123;<br>public:<br>    <span class="hljs-built_in">int</span> i;<br>    <span class="hljs-built_in">int</span> j;<br>    <span class="hljs-constructor">A(<span class="hljs-params">int</span> <span class="hljs-params">val</span>)</span>: j(<span class="hljs-keyword">val</span>), i(j) &#123;&#125;<span class="hljs-comment">// 虽然j写在了前面，但实际还是i先初始化，因为i先声明。</span><br>&#125;;<span class="hljs-comment">// 如果不注意这一陷阱，会导致程序和我们预想的不一致。</span><br></code></pre></td></tr></table></figure><h3 id="Copy-Constructor-的构造操作"><a href="#Copy-Constructor-的构造操作" class="headerlink" title="Copy Constructor 的构造操作"></a>Copy Constructor 的构造操作</h3><h4 id="编译器什么情况下会合成默认拷贝构造函数？"><a href="#编译器什么情况下会合成默认拷贝构造函数？" class="headerlink" title="编译器什么情况下会合成默认拷贝构造函数？"></a>编译器什么情况下会合成默认拷贝构造函数？</h4><ul><li>当 class 内含一个 member object 而后者声明了（也可能由于 nontrivial 语意从而编译器真正合成出来的）一个 copy constructor 时。</li><li>当 class 继承自一个存在有 copy constructor 的 base class（同样也可能是合成）时。</li><li>当 class 声明了一个或多个 virtual functions 时。</li><li>当 class 派生自一个继承串链，其中一个或多个 virtual base classes 时。</li></ul><h4 id="什么时候调用拷贝构造函数？"><a href="#什么时候调用拷贝构造函数？" class="headerlink" title="什么时候调用拷贝构造函数？"></a>什么时候调用拷贝构造函数？</h4><ul><li>一个类以另一个类作为参数显示初始化。</li><li>作为函数的参数。</li><li>作为函数的返回值。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>书籍</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>《深度探索C++对象模型》</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>构造/析构函数可以是虚函数吗？</title>
     <link href="/2021/11/25/%E6%9E%84%E9%80%A0-%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F/"/>
     <url>/2021/11/25/%E6%9E%84%E9%80%A0-%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F/</url>
@@ -33,7 +58,7 @@
     <link href="/2021/11/25/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/"/>
     <url>/2021/11/25/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
     
-    <content type="html"><![CDATA[<h2 id="inline内联函数"><a href="#inline内联函数" class="headerlink" title="inline内联函数"></a>inline内联函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul><li><p>函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。</p></li><li><p><strong>(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。</strong></p></li><li><p>编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）</p></li></ul><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ul><li><strong>关键字inline 必须与函数定义体放在一起才能使函数成为内联，仅将inline 放在函数声明前面不起任何作用</strong>。</li></ul><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// 错误写法</span><br>inline void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span>;  <span class="hljs-comment">// inline 仅与函数声明放在一起</span><br>void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span> &#123;&#125;<br><br><span class="hljs-comment">// 正确写法</span><br>void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span>;<br>inline void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span> &#123;&#125; <span class="hljs-comment">// inline 与函数定义体放在一起</span><br></code></pre></td></tr></table></figure><h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><ul><li><p>inline只适合涵数体内代码简单的函数数使用，不能包含复杂的结构控制语句例如while、switch，并且<strong>内联函数本身不能是直接递归函数</strong>。</p><ul><li>解释：内联函数不能是递归函数，因为内联函数是被编译器在编译的时候展开，而递归的深度在编译的时候无法确定。</li></ul></li><li><p><strong>内联是以代码膨胀（复制）为代价</strong>，仅仅省去了函数调用的开销，从而提高函数的执行效率。如果执行函数体内代码的时间，相比于函数调用的开销较大，那么效率的收获会很少。另一方面，<strong>每一处内联函数的调用都要复制代码，将使程序的总代码量增大，消耗更多的内存空间</strong>。</p></li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul><li><p><a href="https://blog.csdn.net/zqixiao_09/article/details/50877383">https://blog.csdn.net/zqixiao_09/article/details/50877383</a></p></li><li><p><a href="https://blog.csdn.net/BjarneCpp/article/details/76044493">https://blog.csdn.net/BjarneCpp/article/details/76044493</a></p></li><li><p><a href="https://bbs.csdn.net/topics/90164538">https://bbs.csdn.net/topics/90164538</a></p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="inline内联函数"><a href="#inline内联函数" class="headerlink" title="inline内联函数"></a>inline内联函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul><li>函数调用需要开栈 (分配内存、保存现场、准备参数、准备返回值)。</li><li><strong>(假设某个函数经常被调用)为了解决频繁调用函数对栈内存重复开辟所带来的消耗，引入了inline修饰符，表示为内联函数。</strong></li><li>编译器将内联函数内的代码复制到每一个使用它的地方。（有点像宏函数，但宏函数是预处理器来替换，不进行安全性检查）<ul><li>注：inline可以修饰虚函数，但是当虚函数表现多态性的时候不能内联。(因为内联是编译器，多态是运行期)</li></ul></li></ul><h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ul><li><strong>关键字inline 必须与函数定义体放在一起才能使函数成为内联，仅将inline 放在函数声明前面不起任何作用</strong>。</li></ul><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-comment">// 错误写法</span><br>inline void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span>;  <span class="hljs-comment">// inline 仅与函数声明放在一起</span><br>void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span> &#123;&#125;<br><br><span class="hljs-comment">// 正确写法</span><br>void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span>;<br>inline void <span class="hljs-constructor">Foo(<span class="hljs-params">int</span> <span class="hljs-params">x</span>, <span class="hljs-params">int</span> <span class="hljs-params">y</span>)</span> &#123;&#125; <span class="hljs-comment">// inline 与函数定义体放在一起</span><br></code></pre></td></tr></table></figure><h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><ul><li><p>inline只适合涵数体内代码简单的函数数使用，不能包含复杂的结构控制语句例如while、switch，并且<strong>内联函数本身不能是直接递归函数</strong>。</p><ul><li>解释：内联函数不能是递归函数，因为内联函数是被编译器在编译的时候展开，而递归的深度在编译的时候无法确定。</li></ul></li><li><p><strong>内联是以代码膨胀（复制）为代价</strong>，仅仅省去了函数调用的开销，从而提高函数的执行效率。如果执行函数体内代码的时间，相比于函数调用的开销较大，那么效率的收获会很少。另一方面，<strong>每一处内联函数的调用都要复制代码，将使程序的总代码量增大，消耗更多的内存空间</strong>。</p></li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul><li><p><a href="https://blog.csdn.net/zqixiao_09/article/details/50877383">https://blog.csdn.net/zqixiao_09/article/details/50877383</a></p></li><li><p><a href="https://blog.csdn.net/BjarneCpp/article/details/76044493">https://blog.csdn.net/BjarneCpp/article/details/76044493</a></p></li><li><p><a href="https://bbs.csdn.net/topics/90164538">https://bbs.csdn.net/topics/90164538</a></p></li></ul>]]></content>
     
     
     <categories>
@@ -332,33 +357,33 @@
   
   
   <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>about</title>
     <link href="/"/>
     <url>/</url>
     
     <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
     
   </entry>
   
