@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>右值引用</title>
+    <link href="/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/"/>
+    <url>/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<h3 id="右值"><a href="#右值" class="headerlink" title="右值"></a>右值</h3><h3 id="什么是左值、右值？"><a href="#什么是左值、右值？" class="headerlink" title="什么是左值、右值？"></a>什么是左值、右值？</h3><ul><li>可位于赋值号（=）左侧的表达式就是左值；反之，只能位于赋值号右侧的表达式就是右值。</li><li>有名称的、可以获取到存储地址的表达式即为左值；反之则是右值。</li></ul><h3 id="什么是左值引用、右值引用？"><a href="#什么是左值引用、右值引用？" class="headerlink" title="什么是左值引用、右值引用？"></a>什么是左值引用、右值引用？</h3><ul><li><p>引用本质是别名，可以通过引用修改变量的值，传参时传引用可以避免拷贝，其实现原理和指针类似。</p></li><li><p><strong>左值引用：</strong></p><ul><li><strong>能指向左值，不能指向右值的就是左值引用。</strong>引用是变量的别名，由于右值没有地址，没法被修改，所以左值引用无法指向右值。</li><li>注意：<strong>常量左值引用可以指向右值</strong>。（如：const int&amp; a = 10；）</li></ul></li><li><p><strong>右值引用：</strong></p><ul><li><p><strong>右值引用的标志是<code>&amp;&amp;</code><strong>，顾名思义，右值引用专门为右值而生，</strong>可以指向右值，不能指向左值</strong>。</p></li><li><blockquote><p>话说，C++标准委员会在选定右值引用符号时，既希望能选用现有 C++ 内部已有的符号，还不能与 C++ 98 /03 标准产生冲突，最终选定了 2 个 ‘&amp;’ 表示右值引用。</p></blockquote></li><li><p><strong>右值引用主要用于移动语义和完美转发。</strong>（// todo）</p></li></ul></li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul><li><a href="https://zhuanlan.zhihu.com/p/335994370">https://zhuanlan.zhihu.com/p/335994370</a></li><li><a href="http://c.biancheng.net/view/7829.html">http://c.biancheng.net/view/7829.html</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>右值引用</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>《深度探索C++对象模型》 第二章(构造函数语意学)</title>
     <link href="/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/"/>
     <url>/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
@@ -357,33 +382,33 @@
   
   
   <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>about</title>
     <link href="/"/>
     <url>/</url>
     
     <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
     
   </entry>
   

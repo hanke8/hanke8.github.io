@@ -176,6 +176,65 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" target="_self">
+          右值引用
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" target="_self">
+          
+          
+            
+          
+          右值什么是左值、右值？
+可位于赋值号（=）左侧的表达式就是左值；反之，只能位于赋值号右侧的表达式就是右值。
+有名称的、可以获取到存储地址的表达式即为左值；反之则是右值。
+
+什么是左值引用、右值引用？
+引用本质是别名，可以通过引用修改变量的值，传参时传引用可以避免拷贝，其实现原理和指针类似。
+
+左值引用：
+
+能指向左值，不能指向右值的就是左值引用。引用是变量的别名，由于右值没有地址，没法被修改，所以
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-06 19:13" pubdate>
+              2021-12-06
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/">右值引用</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/" target="_self">
           《深度探索C++对象模型》 第二章(构造函数语意学)
         </a>
@@ -674,62 +733,6 @@ Linux 中一切皆文件，比如 C++ 源文件、视频文件、Shell脚本、�
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/epolloneshot/">epolloneshot</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/" target="_self">
-          端口复用
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/" target="_self">
-          
-          
-            
-          
-          端口复用背景
-默认的情况下，一个端口只能被一个套接字绑定；如果一个网络应用程序的一个套接字绑定了一个端口( 占用了 8000 )，这时候，别的套接字就无法使用这个端口( 8000 )；
-因为多个应用程序占用一个端口，容易发生混乱；
-
-应用场景
-（1）服务器只对外开放某一端口（80端口或其他任意少量端口），其他端口全部被封死（2）为了躲避防火墙（3）隐藏自己后门（4）转发不出端口（5）内网渗透
-端口
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-17 16:07" pubdate>
-              2021-11-17
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/">端口复用</a>
             
           </div>
         
