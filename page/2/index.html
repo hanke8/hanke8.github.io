@@ -176,6 +176,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/" target="_self">
+          epolloneshot事件
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/" target="_self">
+          
+          
+            
+          
+          epoll - ET触发模式 - epolloneshot事件背景对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。
+问题epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-19 20:17" pubdate>
+              2021-11-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux网络编程</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/epolloneshot/">epolloneshot</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/" target="_self">
           端口复用
         </a>

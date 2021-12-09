@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>c++引用的本质</title>
-    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
-    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
-<li><strong>引用的本质是一个指针常量</strong></li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
-<ul>
-<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
-</ul>
-</li>
-<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>c++引用的本质</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>0-1背包</title>
     <url>/2021/11/16/0-1%E8%83%8C%E5%8C%85/</url>
     <content><![CDATA[<h3 id="动态规划背包问题"><a href="#动态规划背包问题" class="headerlink" title="动态规划背包问题"></a>动态规划背包问题</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
@@ -113,6 +90,83 @@
       </tags>
   </entry>
   <entry>
+    <title>c++引用的本质</title>
+    <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
+    <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><strong>引用的本质是一个指针常量</strong></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><p>一个reference通常是以一个指针来实现的，所以point和reference并没有本质的区别。– &lt;&lt;深度探索C++对象模型&gt;&gt;</p>
+<ul>
+<li>注：Lippman 这里只是说通常的编译器实现，但是 C++标准并未给予保证。</li>
+</ul>
+</li>
+<li><p>引用的本质是一个指针常量(注意不是常量指针),指针常量的指向不可改而指向的值可以修改； 这也解释了引用为什么能够修改原来变量的值，修改值的唯一方法即是修改该地址对应的值。 – Google</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>c++引用的本质</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker学习</title>
+    <url>/2021/12/09/docker%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>Web 应用的自动化打包和发布。</li>
+<li>自动化测试和持续集成、发布。</li>
+<li>在服务型环境中部署和调整数据库或其他的后台应用。</li>
+<li>从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境。</li>
+</ul>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><ul>
+<li><strong>镜像（Image）</strong>：Docker 镜像（Image），就相当于是一个 root 文件系统。比如官方镜像 ubuntu:16.04 就包含了完整的一套 Ubuntu16.04 最小系统的 root 文件系统。</li>
+<li><strong>容器（Container）</strong>：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</li>
+<li><strong>仓库（Repository）</strong>：仓库可看成一个代码控制中心，用来保存镜像。</li>
+</ul>
+<h3 id="docker-容器使用"><a href="#docker-容器使用" class="headerlink" title="docker 容器使用"></a>docker 容器使用</h3><ul>
+<li><strong>容器 ID</strong>：对每个容器来说都是唯一的，我们可以通过容器 ID 来查看对应的容器发生了什么。</li>
+<li><strong>获取镜像：</strong> <code>docker pull 镜像名</code></li>
+<li><strong>启动容器：</strong> <code>docker run -参数 镜像名 命令 </code><ul>
+<li>例如：<code>docker run -it ubuntu:15.10 /bin/bash</code></li>
+<li>参数解释： <ul>
+<li><strong>docker：</strong> Docker 的二进制执行文件。</li>
+<li><strong>run：</strong> 与前面的 docker 组合来运行一个容器。</li>
+<li><strong>-i：</strong> 交互式操作。</li>
+<li><strong>-t：</strong> 终端。</li>
+<li><strong>ubuntu:15.10：</strong> 指定要运行的镜像，Docker 首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。</li>
+<li><strong>/bin/bash：</strong> 放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 /bin/bash。</li>
+</ul>
+</li>
+<li>补充：-d为后台运行，-P为容器内部端口<strong>随机</strong>映射到主机的高端口，-p为容器内部端口绑定到<strong>指定</strong>的主机端口</li>
+</ul>
+</li>
+<li><strong>查看容器：</strong> <code>docker ps</code></li>
+<li><strong>进入容器：</strong> <code>docker exec/attach 容器id</code>，推荐使用 docker exec，因为它退出容器终端，不会导致容器的停止。</li>
+<li><strong>停止容器：</strong> <code>docker stop 容器id</code></li>
+<li><strong>启动已经停止的容器：</strong> <code>docker start/restart 容器id</code></li>
+<li><strong>删除容器：</strong> <code>docker rm -f 容器id</code></li>
+</ul>
+<h3 id="docker-镜像使用"><a href="#docker-镜像使用" class="headerlink" title="docker 镜像使用"></a>docker 镜像使用</h3><ul>
+<li><strong>获取镜像：</strong> 当运行容器时，使用的镜像如果在本地中不存在，docker 就会自动从 docker 镜像仓库中下载，默认是从 Docker Hub 公共镜像源下载。如果想预先下载这个镜像，可以使用 <code>docker pull</code></li>
+<li><strong>列出镜像：</strong> <code>docker images</code></li>
+<li><strong>删除镜像：</strong> <code>docker rmi 镜像名</code></li>
+<li><strong>创建镜像：</strong> 先写docker file，再<code>docker build</code></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://www.runoob.com/docker/docker-tutorial.html">https://www.runoob.com/docker/docker-tutorial.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>tools</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>epolloneshot事件</title>
     <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
     <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
@@ -130,6 +184,20 @@
       </categories>
       <tags>
         <tag>epolloneshot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode第241场周赛</title>
+    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
+    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
+<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>leetcode周赛</tag>
       </tags>
   </entry>
   <entry>
@@ -176,6 +244,47 @@
       </tags>
   </entry>
   <entry>
+    <title>右值引用</title>
+    <url>/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="什么是左值、右值？"><a href="#什么是左值、右值？" class="headerlink" title="什么是左值、右值？"></a>什么是左值、右值？</h3><ul>
+<li>可位于赋值号（=）左侧的表达式就是左值；反之，只能位于赋值号右侧的表达式就是右值。</li>
+<li>有名称的、可以获取到存储地址的表达式即为左值；反之则是右值。</li>
+</ul>
+<h3 id="什么是左值引用、右值引用？"><a href="#什么是左值引用、右值引用？" class="headerlink" title="什么是左值引用、右值引用？"></a>什么是左值引用、右值引用？</h3><ul>
+<li><p>引用本质是别名，可以通过引用修改变量的值，传参时传引用可以避免拷贝，其实现原理和指针类似。</p>
+</li>
+<li><p><strong>左值引用：</strong></p>
+<ul>
+<li><strong>能指向左值，不能指向右值的就是左值引用。</strong>引用是变量的别名，由于右值没有地址，没法被修改，所以左值引用无法指向右值。</li>
+<li>注意：<strong>常量左值引用可以指向右值</strong>。（如：const int&amp; a = 10；）</li>
+</ul>
+</li>
+<li><p><strong>右值引用：</strong></p>
+<ul>
+<li><p><strong>右值引用的标志是<code>&amp;&amp;</code><strong>，顾名思义，右值引用专门为右值而生，</strong>可以指向右值，不能指向左值</strong>。</p>
+</li>
+<li><blockquote>
+<p>话说，C++标准委员会在选定右值引用符号时，既希望能选用现有 C++ 内部已有的符号，还不能与 C++ 98 /03 标准产生冲突，最终选定了 2 个 ‘&amp;’ 表示右值引用。</p>
+</blockquote>
+</li>
+<li><p><strong>右值引用主要用于移动语义和完美转发。</strong>（// todo）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/335994370">https://zhuanlan.zhihu.com/p/335994370</a></li>
+<li><a href="http://c.biancheng.net/view/7829.html">http://c.biancheng.net/view/7829.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>右值引用</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode78.子集-求子集的两个模板</title>
     <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
     <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
@@ -199,17 +308,39 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode第241场周赛</title>
-    <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
-    <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
-<h3 id="知识点：如何求子集"><a href="#知识点：如何求子集" class="headerlink" title="知识点：如何求子集"></a>知识点：如何求子集</h3><h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">subsetXORSum</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; a)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> ans =<span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> msk = <span class="hljs-number">0</span>; msk &lt; ((<span class="hljs-number">1</span> &lt;&lt; n)); msk++) &#123;<br>            <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>                <span class="hljs-keyword">if</span>((msk &gt;&gt; i) &amp; <span class="hljs-number">1</span>) x ^= a[i];<br>            &#125;<br>            ans += x;<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
+    <title>拷贝构造函数参数</title>
+    <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
+<li><strong>拷贝构造函数的参数必须是引用</strong></li>
+</ul>
+<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
+<li><p>为什么不能是传值？</p>
+<ul>
+<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
+<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
+</ul>
+</li>
+<li><p>为什么不能是传指针？</p>
+<ul>
+<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
+<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
+<li>代码验证：<ul>
+<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
+<li><a href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
+</ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>杂谈</category>
       </categories>
       <tags>
-        <tag>leetcode周赛</tag>
+        <tag>拷贝构造函数参数</tag>
       </tags>
   </entry>
   <entry>
@@ -276,83 +407,6 @@
       </categories>
       <tags>
         <tag>构造、析构函数可以是虚函数？</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>拷贝构造函数参数</title>
-    <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
-<li><strong>拷贝构造函数的参数必须是引用</strong></li>
-</ul>
-<h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><ul>
-<li><p>为什么不能是传值？</p>
-<ul>
-<li>经典误区：或许你会回答为了减少一次内存拷贝？</li>
-<li>正解：传值的方式会继续调用拷贝构造函数，从而造成无穷递归地调用拷贝构造函数。</li>
-</ul>
-</li>
-<li><p>为什么不能是传指针？</p>
-<ul>
-<li>拷贝构造函数需要传入的是一个对象，如果拷贝构造函数的参数是指针的话，这个参数就是地址而不是对象了(仅仅指向对象而已)。 所以不能用指针，作为拷贝构造函数的参数类型。</li>
-<li>即写出传指针，那就不是拷贝构造函数了，编译器不认。</li>
-<li>代码验证：<ul>
-<li>下面代码执行结果不会打印 ”拷贝构造函数“，说明func(a)调用的默认拷贝构造函数，即传指针的方式根本就不是拷贝构造函数。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span>   <span class="hljs-comment">// 万能头文件</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">int</span> data;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">A</span>() &#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br>    <span class="hljs-built_in">A</span>(<span class="hljs-keyword">const</span> A* a) &#123;<br>        data = a-&gt;data;<br>        cout &lt;&lt; <span class="hljs-string">&quot;拷贝构造函数&quot;</span>&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(A a)</span> </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    A a;<br>    A b;<br>    a.<span class="hljs-built_in">func</span>(b);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; <br>&#125;<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/qq_35409955/article/details/72356370">https://blog.csdn.net/qq_35409955/article/details/72356370</a></li>
-<li><a href="https://www.codenong.com/cs109023805/">https://www.codenong.com/cs109023805/</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>拷贝构造函数参数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>右值引用</title>
-    <url>/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="什么是左值、右值？"><a href="#什么是左值、右值？" class="headerlink" title="什么是左值、右值？"></a>什么是左值、右值？</h3><ul>
-<li>可位于赋值号（=）左侧的表达式就是左值；反之，只能位于赋值号右侧的表达式就是右值。</li>
-<li>有名称的、可以获取到存储地址的表达式即为左值；反之则是右值。</li>
-</ul>
-<h3 id="什么是左值引用、右值引用？"><a href="#什么是左值引用、右值引用？" class="headerlink" title="什么是左值引用、右值引用？"></a>什么是左值引用、右值引用？</h3><ul>
-<li><p>引用本质是别名，可以通过引用修改变量的值，传参时传引用可以避免拷贝，其实现原理和指针类似。</p>
-</li>
-<li><p><strong>左值引用：</strong></p>
-<ul>
-<li><strong>能指向左值，不能指向右值的就是左值引用。</strong>引用是变量的别名，由于右值没有地址，没法被修改，所以左值引用无法指向右值。</li>
-<li>注意：<strong>常量左值引用可以指向右值</strong>。（如：const int&amp; a = 10；）</li>
-</ul>
-</li>
-<li><p><strong>右值引用：</strong></p>
-<ul>
-<li><p><strong>右值引用的标志是<code>&amp;&amp;</code><strong>，顾名思义，右值引用专门为右值而生，</strong>可以指向右值，不能指向左值</strong>。</p>
-</li>
-<li><blockquote>
-<p>话说，C++标准委员会在选定右值引用符号时，既希望能选用现有 C++ 内部已有的符号，还不能与 C++ 98 /03 标准产生冲突，最终选定了 2 个 ‘&amp;’ 表示右值引用。</p>
-</blockquote>
-</li>
-<li><p><strong>右值引用主要用于移动语义和完美转发。</strong>（// todo）</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/335994370">https://zhuanlan.zhihu.com/p/335994370</a></li>
-<li><a href="http://c.biancheng.net/view/7829.html">http://c.biancheng.net/view/7829.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>右值引用</tag>
       </tags>
   </entry>
   <entry>
@@ -482,6 +536,32 @@
       </tags>
   </entry>
   <entry>
+    <title>状态压缩</title>
+    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
+    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
+<li>用二进制表示状态</li>
+<li>位运算</li>
+</ul>
+<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
+<ul>
+<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
+<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
+<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>状态压缩</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>端口复用</title>
     <url>/2021/11/17/%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/</url>
     <content><![CDATA[<h3 id="端口复用"><a href="#端口复用" class="headerlink" title="端口复用"></a>端口复用</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><ul>
@@ -519,32 +599,6 @@
       </categories>
       <tags>
         <tag>端口复用</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>状态压缩</title>
-    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
-    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
-<li>用二进制表示状态</li>
-<li>位运算</li>
-</ul>
-<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
-<ul>
-<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
-<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
-<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
-</ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>状态压缩</tag>
       </tags>
   </entry>
 </search>

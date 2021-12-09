@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>docker学习</title>
+    <link href="/2021/12/09/docker%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2021/12/09/docker%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul><li>Web 应用的自动化打包和发布。</li><li>自动化测试和持续集成、发布。</li><li>在服务型环境中部署和调整数据库或其他的后台应用。</li><li>从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境。</li></ul><h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><ul><li><strong>镜像（Image）</strong>：Docker 镜像（Image），就相当于是一个 root 文件系统。比如官方镜像 ubuntu:16.04 就包含了完整的一套 Ubuntu16.04 最小系统的 root 文件系统。</li><li><strong>容器（Container）</strong>：镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</li><li><strong>仓库（Repository）</strong>：仓库可看成一个代码控制中心，用来保存镜像。</li></ul><h3 id="docker-容器使用"><a href="#docker-容器使用" class="headerlink" title="docker 容器使用"></a>docker 容器使用</h3><ul><li><strong>容器 ID</strong>：对每个容器来说都是唯一的，我们可以通过容器 ID 来查看对应的容器发生了什么。</li><li><strong>获取镜像：</strong> <code>docker pull 镜像名</code></li><li><strong>启动容器：</strong> <code>docker run -参数 镜像名 命令 </code><ul><li>例如：<code>docker run -it ubuntu:15.10 /bin/bash</code></li><li>参数解释： <ul><li><strong>docker：</strong> Docker 的二进制执行文件。</li><li><strong>run：</strong> 与前面的 docker 组合来运行一个容器。</li><li><strong>-i：</strong> 交互式操作。</li><li><strong>-t：</strong> 终端。</li><li><strong>ubuntu:15.10：</strong> 指定要运行的镜像，Docker 首先从本地主机上查找镜像是否存在，如果不存在，Docker 就会从镜像仓库 Docker Hub 下载公共镜像。</li><li><strong>/bin/bash：</strong> 放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 /bin/bash。</li></ul></li><li>补充：-d为后台运行，-P为容器内部端口<strong>随机</strong>映射到主机的高端口，-p为容器内部端口绑定到<strong>指定</strong>的主机端口</li></ul></li><li><strong>查看容器：</strong> <code>docker ps</code></li><li><strong>进入容器：</strong> <code>docker exec/attach 容器id</code>，推荐使用 docker exec，因为它退出容器终端，不会导致容器的停止。</li><li><strong>停止容器：</strong> <code>docker stop 容器id</code></li><li><strong>启动已经停止的容器：</strong> <code>docker start/restart 容器id</code></li><li><strong>删除容器：</strong> <code>docker rm -f 容器id</code></li></ul><h3 id="docker-镜像使用"><a href="#docker-镜像使用" class="headerlink" title="docker 镜像使用"></a>docker 镜像使用</h3><ul><li><strong>获取镜像：</strong> 当运行容器时，使用的镜像如果在本地中不存在，docker 就会自动从 docker 镜像仓库中下载，默认是从 Docker Hub 公共镜像源下载。如果想预先下载这个镜像，可以使用 <code>docker pull</code></li><li><strong>列出镜像：</strong> <code>docker images</code></li><li><strong>删除镜像：</strong> <code>docker rmi 镜像名</code></li><li><strong>创建镜像：</strong> 先写docker file，再<code>docker build</code></li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul><li><a href="https://www.runoob.com/docker/docker-tutorial.html">https://www.runoob.com/docker/docker-tutorial.html</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>tools</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>docker</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>右值引用</title>
     <link href="/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/"/>
     <url>/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
@@ -382,33 +407,33 @@
   
   
   <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>about</title>
     <link href="/"/>
     <url>/</url>
     
     <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
     
   </entry>
   
