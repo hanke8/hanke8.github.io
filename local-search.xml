@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>原地哈希</title>
+    <link href="/2021/12/10/%E5%8E%9F%E5%9C%B0%E5%93%88%E5%B8%8C/"/>
+    <url>/2021/12/10/%E5%8E%9F%E5%9C%B0%E5%93%88%E5%B8%8C/</url>
+    
+    <content type="html"><![CDATA[<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-comment">// 解法：原地哈希</span><br><span class="hljs-comment">// 把输入的nums当做一个哈希表</span><br><br><span class="hljs-selector-tag">for</span>(int i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br><span class="hljs-selector-tag">if</span>(nums[i] != i+<span class="hljs-number">1</span>) &#123;<br><span class="hljs-selector-tag">if</span>(nums[i] != nums[nums[i]-<span class="hljs-number">1</span>]) &#123;    <span class="hljs-comment">// 原地哈希模板</span><br><span class="hljs-selector-tag">swap</span>(nums[i], nums[nums[i]-<span class="hljs-number">1</span>]);<br><span class="hljs-selector-tag">i</span><span class="hljs-selector-tag">--</span>;<br>&#125;<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><h3 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h3><h4 id="lc41-缺失的第一个正数"><a href="#lc41-缺失的第一个正数" class="headerlink" title="lc41.缺失的第一个正数"></a><a href="https://leetcode-cn.com/problems/first-missing-positive/">lc41.缺失的第一个正数</a></h4><blockquote><p>给你一个未排序的整数数组 <code>nums</code> ，请你找出其中没有出现的最小的正整数。</p><p><strong>请你实现时间复杂度为 <code>O(n)</code> 并且只使用常数级别额外空间的解决方案。</strong></p></blockquote><ul><li><p>代码：</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">firstMissingPositive</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;<br>            <span class="hljs-keyword">if</span>(nums[i] &gt;= n) <span class="hljs-keyword">continue</span>;<br>            <span class="hljs-keyword">if</span>(nums[i] != i+<span class="hljs-number">1</span>) &#123;<br>                <span class="hljs-keyword">if</span>(nums[i] != nums[nums[i]<span class="hljs-number">-1</span>]) &#123;<br>                    <span class="hljs-built_in">swap</span>(nums[i], nums[nums[i]<span class="hljs-number">-1</span>]);<br>                    i--;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] != i+<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> i+<span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> n+<span class="hljs-number">1</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li></ul><h4 id="lc442-数组中重复的数据"><a href="#lc442-数组中重复的数据" class="headerlink" title="lc442.数组中重复的数据"></a><a href="https://leetcode-cn.com/problems/find-all-duplicates-in-an-array/">lc442.数组中重复的数据</a></h4><blockquote><p>给定一个整数数组 a，其中1 ≤ a[i] ≤ n （n为数组长度）, 其中有些元素出现两次而其他元素出现一次。</p><p>找到所有出现两次的元素。</p><p>你可以不用到任何额外空间并在O(n)时间复杂度内解决这个问题吗？</p></blockquote><ul><li><p>代码：</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">findDuplicates</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-comment">// 解法：原地哈希</span><br>        vector&lt;<span class="hljs-keyword">int</span>&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] != i+<span class="hljs-number">1</span>) &#123;<br>                <span class="hljs-keyword">if</span>(nums[i] != nums[nums[i]<span class="hljs-number">-1</span>]) &#123;        <span class="hljs-comment">// 原地哈希模板</span><br>                    <span class="hljs-built_in">swap</span>(nums[i], nums[nums[i]<span class="hljs-number">-1</span>]);<br>                    i--;   <br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] != i+<span class="hljs-number">1</span>) res.<span class="hljs-built_in">push_back</span>(nums[i]);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li></ul><h4 id="lc448-找出所有数组中消失的数字"><a href="#lc448-找出所有数组中消失的数字" class="headerlink" title="lc448.找出所有数组中消失的数字"></a><a href="https://leetcode-cn.com/problems/find-all-numbers-disappeared-in-an-array/">lc448.找出所有数组中消失的数字</a></h4><blockquote><p>给你一个含 n 个整数的数组 nums ，其中 nums[i] 在区间 [1, n] 内。请你找出所有在 [1, n] 范围内但没有出现在 nums 中的数字，并以数组的形式返回结果。</p></blockquote><ul><li><p>代码：</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">findDisappearedNumbers</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-comment">// 解法：原地哈希</span><br>        <span class="hljs-comment">// 把输入的nums当做一个哈希表</span><br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] != i+<span class="hljs-number">1</span>) &#123;<br>                <span class="hljs-keyword">if</span>(nums[i] != nums[nums[i]<span class="hljs-number">-1</span>]) &#123;    <span class="hljs-comment">// 原地哈希模板</span><br>                    <span class="hljs-built_in">swap</span>(nums[i], nums[nums[i]<span class="hljs-number">-1</span>]);<br>                    i--;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <br>        vector&lt;<span class="hljs-keyword">int</span>&gt; res;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] != i+<span class="hljs-number">1</span>) res.<span class="hljs-built_in">push_back</span>(i+<span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li></ul><h4 id="剑指-Offer-03-数组中重复的数字"><a href="#剑指-Offer-03-数组中重复的数字" class="headerlink" title="剑指 Offer 03. 数组中重复的数字"></a><a href="https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/">剑指 Offer 03. 数组中重复的数字</a></h4><blockquote><p>在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p></blockquote><ul><li><p>代码：</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findRepeatNumber</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; nums.<span class="hljs-built_in">size</span>(); i++) &#123;<br>            <span class="hljs-keyword">if</span>(nums[i] != i) &#123;<br>                <span class="hljs-keyword">if</span>(nums[nums[i]] == nums[i]) &#123;<br>                    <span class="hljs-keyword">return</span> nums[i];<br>                &#125;<br>                <span class="hljs-keyword">else</span> &#123;<br>                    <span class="hljs-built_in">swap</span>(nums[nums[i]], nums[i]);<br>                    i--;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>原地哈希</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>C++虚指针vptr</title>
     <link href="/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/"/>
     <url>/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/</url>
@@ -457,33 +482,33 @@
   
   
   <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>about</title>
     <link href="/"/>
     <url>/</url>
     
     <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
-    <link href="/"/>
-    <url>/</url>
-    
-    <content type="html"><![CDATA[]]></content>
     
   </entry>
   
