@@ -176,6 +176,64 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/" target="_self">
+          C++虚指针vptr
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/" target="_self">
+          
+          
+            
+          
+          虚函数表
+当类中声明虚函数时，编译器会在类中生成一个虚函数表。
+虚函数表是一个存储成员函数指针的数据结构。
+虚函数表由编译器自动生成与维护。
+
+虚指针
+在实现多态的过程中，父类和派生类都有vptr指针，指向对应的虚函数表。
+对象在创建时，由编译器对vptr指针进行初始化。只有当对象的构造完全结束后vptr的指向才最终决定下来。
+定义子类对象时，vptr先指向父类的虚函数表，在父类构造完成之后，子类
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-12-10 15:38" pubdate>
+              2021-12-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E8%99%9A%E6%8C%87%E9%92%88/">虚指针</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/12/10/%E5%9B%BE%E8%A7%A3HTTP%E7%AC%AC%E4%BA%8C%E7%AB%A0/" target="_self">
           《图解HTTP》第二章
         </a>
@@ -693,65 +751,6 @@ C++ 是个多重范型编程语言：面向过程、面向对象、函数式、�
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/">拷贝构造函数参数</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%B8%80%E7%AB%A0/" target="_self">
-          《深度探索C++对象模型》 第一章(关于对象)
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/11/21/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%B8%80%E7%AB%A0/" target="_self">
-          
-          
-            
-          
-          第一章    关于对象C++对象模式（The C++ Object Model）主题一个class对象在机器中是如何被表示的呢？
-分类
-简单对象模型（A Simple Object Model）
-
-表格驱动对象模型（A Table-driven Object Model）
-
-C++ 对象模型（The C++ Object Model）
-
-
-简单对象模型（A Simple Object Model）
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-11-21 23:04" pubdate>
-              2021-11-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E4%B9%A6%E7%B1%8D/">书籍</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E3%80%8A%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%E3%80%8B/">《深度探索C++对象模型》</a>
             
           </div>
         

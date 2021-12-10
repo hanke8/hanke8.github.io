@@ -90,26 +90,6 @@
       </tags>
   </entry>
   <entry>
-    <title>epolloneshot事件</title>
-    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
-<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux网络编程</category>
-      </categories>
-      <tags>
-        <tag>epolloneshot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker学习</title>
     <url>/2021/12/09/docker%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
@@ -164,29 +144,6 @@
       </tags>
   </entry>
   <entry>
-    <title>leetcode78.子集-求子集的两个模板</title>
-    <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
-<h2 id="解法1：二进制状态编码"><a href="#解法1：二进制状态编码" class="headerlink" title="解法1：二进制状态编码"></a>解法1：二进制状态编码</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>· 原序列中的每个数字有两种状态：在子集中、不在子集中；<br>· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;<br>· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];<br>· 例如集合{5，2，9}：</p>
-<p><img src="/images/blogImg/lc78_ans.png" alt="举例"></p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> mask=<span class="hljs-number">0</span>; mask &lt; (<span class="hljs-number">1</span>&lt;&lt;n); mask++) <span class="hljs-comment">// 1&lt;&lt;n表示将1左移n位，即2的n次方(2^n)</span><br>        &#123;<br>            vector&lt;<span class="hljs-keyword">int</span>&gt; v;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(mask &amp; (<span class="hljs-number">1</span>&lt;&lt;i)) v.<span class="hljs-built_in">push_back</span>(nums[i]);<br>            &#125;<br>            res.<span class="hljs-built_in">push_back</span>(v);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
-<p>· 空间复杂度：O(n)，构造子集使用的临时数组v的空间代价。</p>
-<h2 id="解法2：回溯法"><a href="#解法2：回溯法" class="headerlink" title="解法2：回溯法"></a>解法2：回溯法</h2><h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>· 每个位置的数字可能在子集中，也可能不在子集中，因此我们只需要对每个位置的这两种情况进行搜索就行。</p>
-<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; temp;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPosition,vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;nums)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(curPosition == nums.<span class="hljs-built_in">size</span>())<br>        &#123;<br>            res.<span class="hljs-built_in">push_back</span>(temp);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//当前位置的数在子集中</span><br>        temp.<span class="hljs-built_in">push_back</span>(nums[curPosition]);<br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>        temp.<span class="hljs-built_in">pop_back</span>();<br>        <span class="hljs-comment">//当前位置的数不在子集中</span><br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>    &#125;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>, nums);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
-<p>· 空间复杂度：O(n)，构造子集使用的临时数组temp的空间代价。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>二进制状态编码 回溯</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>c++引用的本质</title>
     <url>/2021/11/23/c-%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8/</url>
     <content><![CDATA[<h2 id="C-引用的本质"><a href="#C-引用的本质" class="headerlink" title="C++ 引用的本质"></a>C++ 引用的本质</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
@@ -207,6 +164,50 @@
       </categories>
       <tags>
         <tag>c++引用的本质</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++虚指针vptr</title>
+    <url>/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/</url>
+    <content><![CDATA[<h3 id="虚函数表"><a href="#虚函数表" class="headerlink" title="虚函数表"></a>虚函数表</h3><ul>
+<li>当类中声明虚函数时，编译器会在类中生成一个虚函数表。</li>
+<li>虚函数表是一个存储成员函数指针的数据结构。</li>
+<li>虚函数表由编译器自动生成与维护。</li>
+</ul>
+<h3 id="虚指针"><a href="#虚指针" class="headerlink" title="虚指针"></a>虚指针</h3><ul>
+<li>在实现多态的过程中，父类和派生类都有vptr指针，指向对应的虚函数表。</li>
+<li>对象在创建时，由编译器对vptr指针进行初始化。<strong>只有当对象的构造完全结束后vptr的指向才最终决定下来</strong>。</li>
+<li>定义子类对象时，vptr先指向父类的虚函数表，在父类构造完成之后，子类的vptr才指向自己的虚函数表。（<strong>这也就是在父类或者子类的构造函数中调用虚成员函数不会实现多态的原因。</strong>）</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://www.cnblogs.com/yangguang-it/p/6547314.html">https://www.cnblogs.com/yangguang-it/p/6547314.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>虚指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>epolloneshot事件</title>
+    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
+<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux网络编程</category>
+      </categories>
+      <tags>
+        <tag>epolloneshot</tag>
       </tags>
   </entry>
   <entry>
@@ -264,6 +265,29 @@
       </categories>
       <tags>
         <tag>leetcode周赛</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>leetcode78.子集-求子集的两个模板</title>
+    <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
+<h2 id="解法1：二进制状态编码"><a href="#解法1：二进制状态编码" class="headerlink" title="解法1：二进制状态编码"></a>解法1：二进制状态编码</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>· 原序列中的每个数字有两种状态：在子集中、不在子集中；<br>· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;<br>· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];<br>· 例如集合{5，2，9}：</p>
+<p><img src="/images/blogImg/lc78_ans.png" alt="举例"></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> mask=<span class="hljs-number">0</span>; mask &lt; (<span class="hljs-number">1</span>&lt;&lt;n); mask++) <span class="hljs-comment">// 1&lt;&lt;n表示将1左移n位，即2的n次方(2^n)</span><br>        &#123;<br>            vector&lt;<span class="hljs-keyword">int</span>&gt; v;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(mask &amp; (<span class="hljs-number">1</span>&lt;&lt;i)) v.<span class="hljs-built_in">push_back</span>(nums[i]);<br>            &#125;<br>            res.<span class="hljs-built_in">push_back</span>(v);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
+<p>· 空间复杂度：O(n)，构造子集使用的临时数组v的空间代价。</p>
+<h2 id="解法2：回溯法"><a href="#解法2：回溯法" class="headerlink" title="解法2：回溯法"></a>解法2：回溯法</h2><h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>· 每个位置的数字可能在子集中，也可能不在子集中，因此我们只需要对每个位置的这两种情况进行搜索就行。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; temp;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPosition,vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;nums)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(curPosition == nums.<span class="hljs-built_in">size</span>())<br>        &#123;<br>            res.<span class="hljs-built_in">push_back</span>(temp);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//当前位置的数在子集中</span><br>        temp.<span class="hljs-built_in">push_back</span>(nums[curPosition]);<br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>        temp.<span class="hljs-built_in">pop_back</span>();<br>        <span class="hljs-comment">//当前位置的数不在子集中</span><br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>    &#125;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>, nums);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
+<p>· 空间复杂度：O(n)，构造子集使用的临时数组temp的空间代价。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>二进制状态编码 回溯</tag>
       </tags>
   </entry>
   <entry>
@@ -390,6 +414,52 @@
       </categories>
       <tags>
         <tag>拷贝构造函数参数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《深度探索C++对象模型》 第二章(构造函数语意学)</title>
+    <url>/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
+    <content><![CDATA[<h2 id="第二章-构造函数语意学"><a href="#第二章-构造函数语意学" class="headerlink" title="第二章    构造函数语意学"></a>第二章    构造函数语意学</h2><h3 id="Default-Constructor-的构造操作"><a href="#Default-Constructor-的构造操作" class="headerlink" title="Default Constructor 的构造操作"></a>Default Constructor 的构造操作</h3><h4 id="C-新手常见的-2-个误区"><a href="#C-新手常见的-2-个误区" class="headerlink" title="C++新手常见的 2 个误区"></a>C++新手常见的 2 个误区</h4><ul>
+<li>ERROR: 如果 class 没有定义 default constructor 编译器就一定会提供一个。</li>
+<li>ERROR: 编译器合成出来的默认构造函数会明确设定每一个 data member 的默认值。</li>
+</ul>
+<h4 id="编译器什么情况下会合成默认构造函数？"><a href="#编译器什么情况下会合成默认构造函数？" class="headerlink" title="编译器什么情况下会合成默认构造函数？"></a>编译器什么情况下会合成默认构造函数？</h4><ul>
+<li>首先明确一点，<strong>默认的构造函数只有在编译器需要的时候才被合成出来</strong>，当然前提是程序员没有写默认构造函数。如果写了，那编译器就不会再去合成，最多是会在用户代码前安插一些代码。</li>
+<li>只有以下四种情况(编译器会合成默认构造函数)：<ul>
+<li>带有 Default Constructor 的 Member Class Object。(编译器需要，因为编译器需要调用成员类的构造函数)</li>
+<li>带有 Default Constructor 的 Base Class。(编译器需要，因为编译器需要调用成员类的构造函数)</li>
+<li>带有 Virtual Function 的 Class。(编译器需要，因为编译器需要正确设置好vptr)</li>
+<li>带有 Virtual Base Class 的 Class。**(// todo，编译器需要，因为编译器要保证虚基类在派生类中的位置在执行期准备妥当)**</li>
+</ul>
+</li>
+<li>注：在合成的 default constructor 中，只有 base class subobjects 和 member class objects 会被初始化。所有其他的 nonstatic data member 不会被初始化(如整数、整数指针、整数数组等)。因为这是程序员的需要，而不是编译器的需要。</li>
+</ul>
+<h4 id="成员初始化列表"><a href="#成员初始化列表" class="headerlink" title="成员初始化列表"></a>成员初始化列表</h4><ul>
+<li><strong>以 member 声明的次序来决定初始化次序，而不是初始化列表中的排列次序来决定次序。</strong></li>
+</ul>
+<figure class="highlight reasonml"><table><tr><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> A &#123;<br>public:<br>    <span class="hljs-built_in">int</span> i;<br>    <span class="hljs-built_in">int</span> j;<br>    <span class="hljs-constructor">A(<span class="hljs-params">int</span> <span class="hljs-params">val</span>)</span>: j(<span class="hljs-keyword">val</span>), i(j) &#123;&#125;		<span class="hljs-comment">// 虽然j写在了前面，但实际还是i先初始化，因为i先声明。</span><br>&#125;;									<span class="hljs-comment">// 如果不注意这一陷阱，会导致程序和我们预想的不一致。</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Copy-Constructor-的构造操作"><a href="#Copy-Constructor-的构造操作" class="headerlink" title="Copy Constructor 的构造操作"></a>Copy Constructor 的构造操作</h3><h4 id="编译器什么情况下会合成默认拷贝构造函数？"><a href="#编译器什么情况下会合成默认拷贝构造函数？" class="headerlink" title="编译器什么情况下会合成默认拷贝构造函数？"></a>编译器什么情况下会合成默认拷贝构造函数？</h4><ul>
+<li>当 class 内含一个 member object 而后者声明了（也可能由于 nontrivial 语意从而编译器真正合成出来的）一个 copy constructor 时。</li>
+<li>当 class 继承自一个存在有 copy constructor 的 base class（同样也可能是合成）时。</li>
+<li>当 class 声明了一个或多个 virtual functions 时。</li>
+<li>当 class 派生自一个继承串链，其中一个或多个 virtual base classes 时。</li>
+</ul>
+<h4 id="什么时候调用拷贝构造函数？"><a href="#什么时候调用拷贝构造函数？" class="headerlink" title="什么时候调用拷贝构造函数？"></a>什么时候调用拷贝构造函数？</h4><ul>
+<li>一个类以另一个类作为参数显示初始化。</li>
+<li>作为函数的参数。</li>
+<li>作为函数的返回值。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>书籍</category>
+      </categories>
+      <tags>
+        <tag>《深度探索C++对象模型》</tag>
       </tags>
   </entry>
   <entry>
@@ -602,52 +672,6 @@
       </categories>
       <tags>
         <tag>端口复用</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>《深度探索C++对象模型》 第二章(构造函数语意学)</title>
-    <url>/2021/11/29/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%20%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
-    <content><![CDATA[<h2 id="第二章-构造函数语意学"><a href="#第二章-构造函数语意学" class="headerlink" title="第二章    构造函数语意学"></a>第二章    构造函数语意学</h2><h3 id="Default-Constructor-的构造操作"><a href="#Default-Constructor-的构造操作" class="headerlink" title="Default Constructor 的构造操作"></a>Default Constructor 的构造操作</h3><h4 id="C-新手常见的-2-个误区"><a href="#C-新手常见的-2-个误区" class="headerlink" title="C++新手常见的 2 个误区"></a>C++新手常见的 2 个误区</h4><ul>
-<li>ERROR: 如果 class 没有定义 default constructor 编译器就一定会提供一个。</li>
-<li>ERROR: 编译器合成出来的默认构造函数会明确设定每一个 data member 的默认值。</li>
-</ul>
-<h4 id="编译器什么情况下会合成默认构造函数？"><a href="#编译器什么情况下会合成默认构造函数？" class="headerlink" title="编译器什么情况下会合成默认构造函数？"></a>编译器什么情况下会合成默认构造函数？</h4><ul>
-<li>首先明确一点，<strong>默认的构造函数只有在编译器需要的时候才被合成出来</strong>，当然前提是程序员没有写默认构造函数。如果写了，那编译器就不会再去合成，最多是会在用户代码前安插一些代码。</li>
-<li>只有以下四种情况(编译器会合成默认构造函数)：<ul>
-<li>带有 Default Constructor 的 Member Class Object。(编译器需要，因为编译器需要调用成员类的构造函数)</li>
-<li>带有 Default Constructor 的 Base Class。(编译器需要，因为编译器需要调用成员类的构造函数)</li>
-<li>带有 Virtual Function 的 Class。(编译器需要，因为编译器需要正确设置好vptr)</li>
-<li>带有 Virtual Base Class 的 Class。**(// todo，编译器需要，因为编译器要保证虚基类在派生类中的位置在执行期准备妥当)**</li>
-</ul>
-</li>
-<li>注：在合成的 default constructor 中，只有 base class subobjects 和 member class objects 会被初始化。所有其他的 nonstatic data member 不会被初始化(如整数、整数指针、整数数组等)。因为这是程序员的需要，而不是编译器的需要。</li>
-</ul>
-<h4 id="成员初始化列表"><a href="#成员初始化列表" class="headerlink" title="成员初始化列表"></a>成员初始化列表</h4><ul>
-<li><strong>以 member 声明的次序来决定初始化次序，而不是初始化列表中的排列次序来决定次序。</strong></li>
-</ul>
-<figure class="highlight reasonml"><table><tr><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> A &#123;<br>public:<br>    <span class="hljs-built_in">int</span> i;<br>    <span class="hljs-built_in">int</span> j;<br>    <span class="hljs-constructor">A(<span class="hljs-params">int</span> <span class="hljs-params">val</span>)</span>: j(<span class="hljs-keyword">val</span>), i(j) &#123;&#125;		<span class="hljs-comment">// 虽然j写在了前面，但实际还是i先初始化，因为i先声明。</span><br>&#125;;									<span class="hljs-comment">// 如果不注意这一陷阱，会导致程序和我们预想的不一致。</span><br></code></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="Copy-Constructor-的构造操作"><a href="#Copy-Constructor-的构造操作" class="headerlink" title="Copy Constructor 的构造操作"></a>Copy Constructor 的构造操作</h3><h4 id="编译器什么情况下会合成默认拷贝构造函数？"><a href="#编译器什么情况下会合成默认拷贝构造函数？" class="headerlink" title="编译器什么情况下会合成默认拷贝构造函数？"></a>编译器什么情况下会合成默认拷贝构造函数？</h4><ul>
-<li>当 class 内含一个 member object 而后者声明了（也可能由于 nontrivial 语意从而编译器真正合成出来的）一个 copy constructor 时。</li>
-<li>当 class 继承自一个存在有 copy constructor 的 base class（同样也可能是合成）时。</li>
-<li>当 class 声明了一个或多个 virtual functions 时。</li>
-<li>当 class 派生自一个继承串链，其中一个或多个 virtual base classes 时。</li>
-</ul>
-<h4 id="什么时候调用拷贝构造函数？"><a href="#什么时候调用拷贝构造函数？" class="headerlink" title="什么时候调用拷贝构造函数？"></a>什么时候调用拷贝构造函数？</h4><ul>
-<li>一个类以另一个类作为参数显示初始化。</li>
-<li>作为函数的参数。</li>
-<li>作为函数的返回值。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>书籍</category>
-      </categories>
-      <tags>
-        <tag>《深度探索C++对象模型》</tag>
       </tags>
   </entry>
 </search>

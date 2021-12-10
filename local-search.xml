@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>C++虚指针vptr</title>
+    <link href="/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/"/>
+    <url>/2021/12/10/C-%E8%99%9A%E6%8C%87%E9%92%88vptr/</url>
+    
+    <content type="html"><![CDATA[<h3 id="虚函数表"><a href="#虚函数表" class="headerlink" title="虚函数表"></a>虚函数表</h3><ul><li>当类中声明虚函数时，编译器会在类中生成一个虚函数表。</li><li>虚函数表是一个存储成员函数指针的数据结构。</li><li>虚函数表由编译器自动生成与维护。</li></ul><h3 id="虚指针"><a href="#虚指针" class="headerlink" title="虚指针"></a>虚指针</h3><ul><li>在实现多态的过程中，父类和派生类都有vptr指针，指向对应的虚函数表。</li><li>对象在创建时，由编译器对vptr指针进行初始化。<strong>只有当对象的构造完全结束后vptr的指向才最终决定下来</strong>。</li><li>定义子类对象时，vptr先指向父类的虚函数表，在父类构造完成之后，子类的vptr才指向自己的虚函数表。（<strong>这也就是在父类或者子类的构造函数中调用虚成员函数不会实现多态的原因。</strong>）</li></ul><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul><li><a href="https://www.cnblogs.com/yangguang-it/p/6547314.html">https://www.cnblogs.com/yangguang-it/p/6547314.html</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>杂谈</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>虚指针</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>《图解HTTP》第二章</title>
     <link href="/2021/12/10/%E5%9B%BE%E8%A7%A3HTTP%E7%AC%AC%E4%BA%8C%E7%AB%A0/"/>
     <url>/2021/12/10/%E5%9B%BE%E8%A7%A3HTTP%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
