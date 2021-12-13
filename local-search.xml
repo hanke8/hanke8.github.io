@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>面先对象高级编程</title>
+    <link href="/2021/12/13/%E9%9D%A2%E5%85%88%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
+    <url>/2021/12/13/%E9%9D%A2%E5%85%88%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<h3 id="面向对象高级编程（上）"><a href="#面向对象高级编程（上）" class="headerlink" title="面向对象高级编程（上）"></a>面向对象高级编程（上）</h3><h4 id="头文件与类的声明"><a href="#头文件与类的声明" class="headerlink" title="头文件与类的声明"></a>头文件与类的声明</h4><ul><li><p>头文件声明采用防卫式</p><ul><li>#ifndef    #define    #endif</li><li>作用：防止重复include</li></ul></li><li><p>如果类的成员函数声明和定义都在类内，则为内联函数。若定义在类外，则需要加inline关键字才为内联函数。（注：加了inline也不一定能成为内联，具体还得看编译器自己判断(inline只是为编译器一个建议)）</p></li><li><p>若成员函数不修改成员数据，建议后面加个const</p><ul><li>否则当用户使用类，在前面加了const时，再调用类函数就会报错。(类设计的不够好，考虑不充分) </li></ul></li><li><p>友元函数可直接访问私有成员。</p><ul><li><p><strong>同一个class的各个 <code>objects</code> 互为友元</strong></p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">int</span> <span class="hljs-built_in">complex</span>::<span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">complex</span>&amp; param)</span></span> &#123;<br><span class="hljs-keyword">return</span> param.re + param.im;<span class="hljs-comment">// complex是复数类，其中re是实部，im是虚部（都是私有）</span><br>&#125;<br></code></pre></td></tr></table></figure></li></ul></li></ul><h4 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h4><ul><li>构造函数尽量采用<strong>初始化列</strong>的方式<ul><li>若写在构造函数内部，则成了赋值，效率不高，因为进入函数体之前就进行了默认初始化。</li><li>另外就是派生类对父类成员进行初始化必须在初始化列，因为先要初始化父类，之后才进入派生类的构造函数内部。</li></ul></li><li><strong>拷贝构造函数的参数只能是类的引用</strong><ul><li>首先肯定不能是指针。拷贝，顾名思义是要拷贝相同类型的东西，所以参数只能是类，而不能是类的指针。</li><li>其次不能传值。因为传值又会调用拷贝构造函数，造成无限递归。</li></ul></li><li>构造函数可以是private，用于单例模式<ul><li>向外提供一个返回静态实例对象的函数，注意并发时得加锁。</li></ul></li><li>参数和返回值尽量传引用（注：不能返回局部变量的引用）</li></ul><h3 id="new和delete"><a href="#new和delete" class="headerlink" title="new和delete"></a>new和delete</h3><ul><li>new被编译器解释为：<ul><li>先调用operator new(这是一个函数，里面调用的是malloc)，为对象分配内存。</li><li>再将malloc返回的指针进行类型转换。</li><li>最后调用对象的构造函数，对分配的内存进行初始化。</li></ul></li><li>delete被编译器解释为：<ul><li>先调用对象的析构函数。</li><li>在调用operator delete(这是一个函数，里面调用的是free)，释放之前为对象分配的内存。</li></ul></li><li><strong>new xxx[] 和 delete[] xxx要配对使用</strong><ul><li>因为delete[] xxx对调用n次析构函数，最后再释放<strong>对象内存</strong>。</li><li>析构函数里面可能需要<strong>释放构造函数里面new的内存</strong>（和对象内存是两码事）。</li><li>若new xxx[] ，直接delete xxx，则可能会导致对象<strong>构造函数内new的内存泄露</strong>。</li></ul></li></ul><p><img src="images/blogImg/oop_1.png" alt="new[]和delete[]要搭配使用"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>视频</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>侯捷老师视频</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>原地哈希</title>
     <link href="/2021/12/10/%E5%8E%9F%E5%9C%B0%E5%93%88%E5%B8%8C/"/>
     <url>/2021/12/10/%E5%8E%9F%E5%9C%B0%E5%93%88%E5%B8%8C/</url>
