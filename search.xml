@@ -191,6 +191,49 @@
       </tags>
   </entry>
   <entry>
+    <title>leetcode78.子集-求子集的两个模板</title>
+    <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
+<h2 id="解法1：二进制状态编码"><a href="#解法1：二进制状态编码" class="headerlink" title="解法1：二进制状态编码"></a>解法1：二进制状态编码</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>· 原序列中的每个数字有两种状态：在子集中、不在子集中；<br>· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;<br>· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];<br>· 例如集合{5，2，9}：</p>
+<p><img src="/images/blogImg/lc78_ans.png" alt="举例"></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> mask=<span class="hljs-number">0</span>; mask &lt; (<span class="hljs-number">1</span>&lt;&lt;n); mask++) <span class="hljs-comment">// 1&lt;&lt;n表示将1左移n位，即2的n次方(2^n)</span><br>        &#123;<br>            vector&lt;<span class="hljs-keyword">int</span>&gt; v;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(mask &amp; (<span class="hljs-number">1</span>&lt;&lt;i)) v.<span class="hljs-built_in">push_back</span>(nums[i]);<br>            &#125;<br>            res.<span class="hljs-built_in">push_back</span>(v);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
+<p>· 空间复杂度：O(n)，构造子集使用的临时数组v的空间代价。</p>
+<h2 id="解法2：回溯法"><a href="#解法2：回溯法" class="headerlink" title="解法2：回溯法"></a>解法2：回溯法</h2><h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>· 每个位置的数字可能在子集中，也可能不在子集中，因此我们只需要对每个位置的这两种情况进行搜索就行。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; temp;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPosition,vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;nums)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(curPosition == nums.<span class="hljs-built_in">size</span>())<br>        &#123;<br>            res.<span class="hljs-built_in">push_back</span>(temp);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//当前位置的数在子集中</span><br>        temp.<span class="hljs-built_in">push_back</span>(nums[curPosition]);<br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>        temp.<span class="hljs-built_in">pop_back</span>();<br>        <span class="hljs-comment">//当前位置的数不在子集中</span><br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>    &#125;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>, nums);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
+<p>· 空间复杂度：O(n)，构造子集使用的临时数组temp的空间代价。</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>二进制状态编码 回溯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>epolloneshot事件</title>
+    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
+<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
+<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux网络编程</category>
+      </categories>
+      <tags>
+        <tag>epolloneshot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>inline内联函数</title>
     <url>/2021/11/25/inline%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h2 id="inline内联函数"><a href="#inline内联函数" class="headerlink" title="inline内联函数"></a>inline内联函数</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><ul>
@@ -234,26 +277,6 @@
       </tags>
   </entry>
   <entry>
-    <title>epolloneshot事件</title>
-    <url>/2021/11/19/epolloneshot%E4%BA%8B%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="epoll-ET触发模式-epolloneshot事件"><a href="#epoll-ET触发模式-epolloneshot事件" class="headerlink" title="epoll - ET触发模式 - epolloneshot事件"></a>epoll - ET触发模式 - epolloneshot事件</h3><h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>对于同一批数据我们希望在一个线程里面处理，不然容易造成混乱。</p>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>epoll模型的ET模式一般来说只触发一次，然而在并发程序中有特殊情况的存在，譬如当epoll_wait已经检测到socket描述符fd1，并通知应用程序处理fd1的数据，那么处理过程中该fd1又有新的数据可读，会唤醒其他线程对fd1进行操作，那么就出现了两个工作线程同时处理fd1的情况，这当然不是我们期望看到的。</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>epolloneshot事件，规定操作系统最多触发其上注册的一个可读或者可写或者异常事件，且只触发一次，如此无论线程再多，只能有一个线程或进程处理同一个描述符。当然处理完之后线程要重置这个epolloneshot事件，进而当此描述符有事件可读时让其他进程可以处理此描述符。</p>
-<h4 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 工作线程</span><br><span class="hljs-keyword">while</span>( <span class="hljs-number">1</span> ) &#123;<br>	<span class="hljs-keyword">int</span> ret = <span class="hljs-built_in">recv</span>( sockfd, buf, BUFFER_SIZE<span class="hljs-number">-1</span>, <span class="hljs-number">0</span> );<br>    <span class="hljs-keyword">if</span>( ret == <span class="hljs-number">0</span> ) &#123;		<span class="hljs-comment">// 客户端关闭连接</span><br>    	<span class="hljs-built_in">close</span>( sockfd );<br>        <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;client closed the connection\n&quot;</span> );<br>        <span class="hljs-keyword">break</span>;<br>	&#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>( ret &lt; <span class="hljs-number">0</span> ) &#123;<br>        <span class="hljs-keyword">if</span>( errno == EAGAIN ) &#123;	<span class="hljs-comment">// 数据被读完</span><br>        	<span class="hljs-built_in">resetOneshot</span>( epollfd, sockfd );  <span class="hljs-comment">// 重置Oneshot事件</span><br>            <span class="hljs-built_in">printf</span>( <span class="hljs-string">&quot;read later\n&quot;</span> );<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> ...略<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://blog.csdn.net/hnlyyk/article/details/50946655">https://blog.csdn.net/hnlyyk/article/details/50946655</a></li>
-<li><a href="https://www.cnblogs.com/kex1n/p/7451069.html">https://www.cnblogs.com/kex1n/p/7451069.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux网络编程</category>
-      </categories>
-      <tags>
-        <tag>epolloneshot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>leetcode第241场周赛</title>
     <url>/2021/05/16/leetcode%E7%AC%AC241%E5%9C%BA%E5%91%A8%E8%B5%9B/</url>
     <content><![CDATA[<h2 id="题目1："><a href="#题目1：" class="headerlink" title="题目1："></a>题目1：</h2><p><img src="C:\Users\1\AppData\Roaming\Typora\typora-user-images\image-20210516121804630.png" alt="题目描述"></p>
@@ -265,29 +288,6 @@
       </categories>
       <tags>
         <tag>leetcode周赛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>leetcode78.子集-求子集的两个模板</title>
-    <url>/2021/05/16/leetcode78-%E5%AD%90%E9%9B%86-%E6%B1%82%E5%AD%90%E9%9B%86%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A8%A1%E6%9D%BF/</url>
-    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="/images/blogImg/lc78_problem.png" alt="题目描述"></p>
-<h2 id="解法1：二进制状态编码"><a href="#解法1：二进制状态编码" class="headerlink" title="解法1：二进制状态编码"></a>解法1：二进制状态编码</h2><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>· 原序列中的每个数字有两种状态：在子集中、不在子集中；<br>· 我们用n位二进制序列来表示每个数字的状态，若某数字在子集中，则二进制序列对应位置位1，否则为0;<br>· 二进制序列的每一个位置有0，1两种可能，所以总共可能的情况为2^n种，对应十进制数的[0, 2^n-1];<br>· 例如集合{5，2，9}：</p>
-<p><img src="/images/blogImg/lc78_ans.png" alt="举例"></p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>        <span class="hljs-keyword">int</span> n = nums.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> mask=<span class="hljs-number">0</span>; mask &lt; (<span class="hljs-number">1</span>&lt;&lt;n); mask++) <span class="hljs-comment">// 1&lt;&lt;n表示将1左移n位，即2的n次方(2^n)</span><br>        &#123;<br>            vector&lt;<span class="hljs-keyword">int</span>&gt; v;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;n; i++)<br>            &#123;<br>                <span class="hljs-keyword">if</span>(mask &amp; (<span class="hljs-number">1</span>&lt;&lt;i)) v.<span class="hljs-built_in">push_back</span>(nums[i]);<br>            &#125;<br>            res.<span class="hljs-built_in">push_back</span>(v);<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
-<p>· 空间复杂度：O(n)，构造子集使用的临时数组v的空间代价。</p>
-<h2 id="解法2：回溯法"><a href="#解法2：回溯法" class="headerlink" title="解法2：回溯法"></a>解法2：回溯法</h2><h3 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h3><p>· 每个位置的数字可能在子集中，也可能不在子集中，因此我们只需要对每个位置的这两种情况进行搜索就行。</p>
-<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; res;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; temp;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> curPosition,vector&lt;<span class="hljs-keyword">int</span>&gt; &amp;nums)</span></span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">if</span>(curPosition == nums.<span class="hljs-built_in">size</span>())<br>        &#123;<br>            res.<span class="hljs-built_in">push_back</span>(temp);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">//当前位置的数在子集中</span><br>        temp.<span class="hljs-built_in">push_back</span>(nums[curPosition]);<br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>        temp.<span class="hljs-built_in">pop_back</span>();<br>        <span class="hljs-comment">//当前位置的数不在子集中</span><br>        <span class="hljs-built_in">dfs</span>(curPosition+<span class="hljs-number">1</span>, nums);<br>    &#125;<br>    vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">subsets</span>(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums) &#123;<br>        <span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>, nums);<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<h3 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h3><p>· 时间复杂度：O(n*2^n)，一共2^n个状态，每种状态需要O(n)的时间来构造子集。</p>
-<p>· 空间复杂度：O(n)，构造子集使用的临时数组temp的空间代价。</p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>二进制状态编码 回溯</tag>
       </tags>
   </entry>
   <entry>
@@ -334,6 +334,47 @@
       </categories>
       <tags>
         <tag>原地哈希</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>右值引用</title>
+    <url>/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="什么是左值、右值？"><a href="#什么是左值、右值？" class="headerlink" title="什么是左值、右值？"></a>什么是左值、右值？</h3><ul>
+<li>可位于赋值号（=）左侧的表达式就是左值；反之，只能位于赋值号右侧的表达式就是右值。</li>
+<li>有名称的、可以获取到存储地址的表达式即为左值；反之则是右值。</li>
+</ul>
+<h3 id="什么是左值引用、右值引用？"><a href="#什么是左值引用、右值引用？" class="headerlink" title="什么是左值引用、右值引用？"></a>什么是左值引用、右值引用？</h3><ul>
+<li><p>引用本质是别名，可以通过引用修改变量的值，传参时传引用可以避免拷贝，其实现原理和指针类似。</p>
+</li>
+<li><p><strong>左值引用：</strong></p>
+<ul>
+<li><strong>能指向左值，不能指向右值的就是左值引用。</strong>引用是变量的别名，由于右值没有地址，没法被修改，所以左值引用无法指向右值。</li>
+<li>注意：<strong>常量左值引用可以指向右值</strong>。（如：const int&amp; a = 10；）</li>
+</ul>
+</li>
+<li><p><strong>右值引用：</strong></p>
+<ul>
+<li><p><strong>右值引用的标志是<code>&amp;&amp;</code><strong>，顾名思义，右值引用专门为右值而生，</strong>可以指向右值，不能指向左值</strong>。</p>
+</li>
+<li><blockquote>
+<p>话说，C++标准委员会在选定右值引用符号时，既希望能选用现有 C++ 内部已有的符号，还不能与 C++ 98 /03 标准产生冲突，最终选定了 2 个 ‘&amp;’ 表示右值引用。</p>
+</blockquote>
+</li>
+<li><p><strong>右值引用主要用于移动语义和完美转发。</strong>（// todo）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/335994370">https://zhuanlan.zhihu.com/p/335994370</a></li>
+<li><a href="http://c.biancheng.net/view/7829.html">http://c.biancheng.net/view/7829.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>右值引用</tag>
       </tags>
   </entry>
   <entry>
@@ -386,113 +427,6 @@
       </tags>
   </entry>
   <entry>
-    <title>右值引用</title>
-    <url>/2021/12/06/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/</url>
-    <content><![CDATA[<h3 id="什么是左值、右值？"><a href="#什么是左值、右值？" class="headerlink" title="什么是左值、右值？"></a>什么是左值、右值？</h3><ul>
-<li>可位于赋值号（=）左侧的表达式就是左值；反之，只能位于赋值号右侧的表达式就是右值。</li>
-<li>有名称的、可以获取到存储地址的表达式即为左值；反之则是右值。</li>
-</ul>
-<h3 id="什么是左值引用、右值引用？"><a href="#什么是左值引用、右值引用？" class="headerlink" title="什么是左值引用、右值引用？"></a>什么是左值引用、右值引用？</h3><ul>
-<li><p>引用本质是别名，可以通过引用修改变量的值，传参时传引用可以避免拷贝，其实现原理和指针类似。</p>
-</li>
-<li><p><strong>左值引用：</strong></p>
-<ul>
-<li><strong>能指向左值，不能指向右值的就是左值引用。</strong>引用是变量的别名，由于右值没有地址，没法被修改，所以左值引用无法指向右值。</li>
-<li>注意：<strong>常量左值引用可以指向右值</strong>。（如：const int&amp; a = 10；）</li>
-</ul>
-</li>
-<li><p><strong>右值引用：</strong></p>
-<ul>
-<li><p><strong>右值引用的标志是<code>&amp;&amp;</code><strong>，顾名思义，右值引用专门为右值而生，</strong>可以指向右值，不能指向左值</strong>。</p>
-</li>
-<li><blockquote>
-<p>话说，C++标准委员会在选定右值引用符号时，既希望能选用现有 C++ 内部已有的符号，还不能与 C++ 98 /03 标准产生冲突，最终选定了 2 个 ‘&amp;’ 表示右值引用。</p>
-</blockquote>
-</li>
-<li><p><strong>右值引用主要用于移动语义和完美转发。</strong>（// todo）</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/335994370">https://zhuanlan.zhihu.com/p/335994370</a></li>
-<li><a href="http://c.biancheng.net/view/7829.html">http://c.biancheng.net/view/7829.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>右值引用</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>文件描述符</title>
-    <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
-    <content><![CDATA[<h3 id="Linux文件描述符的本质"><a href="#Linux文件描述符的本质" class="headerlink" title="Linux文件描述符的本质"></a>Linux文件描述符的本质</h3><h4 id="大致认识"><a href="#大致认识" class="headerlink" title="大致认识"></a>大致认识</h4><p><strong>文件描述符是文件编号。</strong></p>
-<p>Linux 中一切皆文件，比如 C++ 源文件、视频文件、Shell脚本、可执行文件等，就连键盘、显示器、鼠标等硬件设备也都是文件。</p>
-<p>一个 Linux 进程可以打开成百上千个文件，为了表示和区分已经打开的文件，Linux 会给每个文件分配一个编号（一个 ID），这个编号就是一个整数，被称为文件描述符（File Descriptor）。</p>
-<h4 id="进一步认识"><a href="#进一步认识" class="headerlink" title="进一步认识"></a>进一步认识</h4><p><strong>文件描述符是PCB内部文件描述符表的下标，与文件指针一一映射。</strong></p>
-<p>一个 Linux 进程启动后，会在内核空间中创建一个 PCB 控制块，PCB 内部有一个文件描述符表（File descriptor table），记录着当前进程所有可用的文件描述符，也即当前进程所有打开的文件。</p>
-<p>除了文件描述符表，系统还需要维护另外两张表：</p>
-<ul>
-<li>打开文件表（Open file table）</li>
-<li>i-node 表（i-node table）</li>
-</ul>
-<p><img src="/images/blogImg/fd.png" alt="三者关系"></p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="http://c.biancheng.net/view/3066.html">http://c.biancheng.net/view/3066.html</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux网络编程</category>
-      </categories>
-      <tags>
-        <tag>文件描述符</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>构造/析构函数可以是虚函数吗？</title>
-    <url>/2021/11/25/%E6%9E%84%E9%80%A0-%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F/</url>
-    <content><![CDATA[<h2 id="构造-析构函数可以是虚函数吗？"><a href="#构造-析构函数可以是虚函数吗？" class="headerlink" title="构造/析构函数可以是虚函数吗？"></a>构造/析构函数可以是虚函数吗？</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
-<li><strong>构造函数不可以是虚函数，也不可能成为虚函数。</strong></li>
-<li><strong>当有派生类，且派生类中申请了内存，那析构函数必须是虚函数（防止内存泄露）。</strong></li>
-</ul>
-<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><ul>
-<li>构造函数不能是虚函数的原因：<ul>
-<li>从vptr角度解释：<ul>
-<li>虚函数的调用要通过查找对象内部的虚指针指向的虚函数表。若构造函数是虚函数，则要去查找vptr，但此时对象没有初始化，没有vptr。</li>
-</ul>
-</li>
-<li>从多态角度解释：<ul>
-<li>虚函数主要是用于实现多态的，而构造函数是创建对象时自动调用的，不可能通过父类的指针或者引用去调用，完全和多态不沾边，成为虚函数没有任何意义。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>析构函数：<ul>
-<li>当有派生类且派生类申请了内存时，析构函数必须要是虚函数，不然就会派生类申请的内存得不到释放，会造成内存泄露。<ul>
-<li>注：<strong>如果析构函数不被声明成虚函数，则编译器实施静态绑定</strong>，在删除指向派生类的基类指针时，<strong>只会调用基类的析构函数而不调用派生类析构函数</strong>。</li>
-</ul>
-</li>
-<li>其余情况析构函数尽量别成为虚函数，因为虚指针、虚函数表浪费内存。</li>
-</ul>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.csdn.net/libaineu2004/article/details/85684224">https://blog.csdn.net/libaineu2004/article/details/85684224</a></li>
-<li><a href="https://blog.csdn.net/qq_28584889/article/details/88749862">https://blog.csdn.net/qq_28584889/article/details/88749862</a></li>
-<li><a href="https://blog.csdn.net/weixin_42333471/article/details/88067951">https://blog.csdn.net/weixin_42333471/article/details/88067951</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>构造、析构函数可以是虚函数？</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>拷贝构造函数参数</title>
     <url>/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/</url>
     <content><![CDATA[<h3 id="拷贝构造函数参数"><a href="#拷贝构造函数参数" class="headerlink" title="拷贝构造函数参数"></a>拷贝构造函数参数</h3><h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
@@ -526,6 +460,31 @@
       </categories>
       <tags>
         <tag>拷贝构造函数参数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>文件描述符</title>
+    <url>/2021/11/19/%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6/</url>
+    <content><![CDATA[<h3 id="Linux文件描述符的本质"><a href="#Linux文件描述符的本质" class="headerlink" title="Linux文件描述符的本质"></a>Linux文件描述符的本质</h3><h4 id="大致认识"><a href="#大致认识" class="headerlink" title="大致认识"></a>大致认识</h4><p><strong>文件描述符是文件编号。</strong></p>
+<p>Linux 中一切皆文件，比如 C++ 源文件、视频文件、Shell脚本、可执行文件等，就连键盘、显示器、鼠标等硬件设备也都是文件。</p>
+<p>一个 Linux 进程可以打开成百上千个文件，为了表示和区分已经打开的文件，Linux 会给每个文件分配一个编号（一个 ID），这个编号就是一个整数，被称为文件描述符（File Descriptor）。</p>
+<h4 id="进一步认识"><a href="#进一步认识" class="headerlink" title="进一步认识"></a>进一步认识</h4><p><strong>文件描述符是PCB内部文件描述符表的下标，与文件指针一一映射。</strong></p>
+<p>一个 Linux 进程启动后，会在内核空间中创建一个 PCB 控制块，PCB 内部有一个文件描述符表（File descriptor table），记录着当前进程所有可用的文件描述符，也即当前进程所有打开的文件。</p>
+<p>除了文件描述符表，系统还需要维护另外两张表：</p>
+<ul>
+<li>打开文件表（Open file table）</li>
+<li>i-node 表（i-node table）</li>
+</ul>
+<p><img src="/images/blogImg/fd.png" alt="三者关系"></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="http://c.biancheng.net/view/3066.html">http://c.biancheng.net/view/3066.html</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux网络编程</category>
+      </categories>
+      <tags>
+        <tag>文件描述符</tag>
       </tags>
   </entry>
   <entry>
@@ -618,6 +577,7 @@
 <h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><ul>
 <li>没必要合成就不去合成，因为合成默认(拷贝)构造函数即浪费内存又浪费时间，并且函数调用还浪费时间。</li>
 <li>反正合成的默认(拷贝)构造函数也是干的相同的事情，编译器还不如直接自己干了。</li>
+<li><a href="https://godbolt.org/">在线编译网站</a></li>
 </ul>
 <p><img src="/images/blogImg/inside_the_c++_object_model_5.png" alt="编译器不合成"></p>
 <p><img src="/images/blogImg/inside_the_c++_object_model_6.png" alt="自己写一个"></p>
@@ -657,29 +617,44 @@
       </tags>
   </entry>
   <entry>
-    <title>状态压缩</title>
-    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
-    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
-<li>用二进制表示状态</li>
-<li>位运算</li>
+    <title>构造/析构函数可以是虚函数吗？</title>
+    <url>/2021/11/25/%E6%9E%84%E9%80%A0-%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F/</url>
+    <content><![CDATA[<h2 id="构造-析构函数可以是虚函数吗？"><a href="#构造-析构函数可以是虚函数吗？" class="headerlink" title="构造/析构函数可以是虚函数吗？"></a>构造/析构函数可以是虚函数吗？</h2><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+<li><strong>构造函数不可以是虚函数，也不可能成为虚函数。</strong></li>
+<li><strong>当有派生类，且派生类中申请了内存，那析构函数必须是虚函数（防止内存泄露）。</strong></li>
 </ul>
-<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
-<ul>
-<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
-<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
-<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><ul>
+<li>构造函数不能是虚函数的原因：<ul>
+<li>从vptr角度解释：<ul>
+<li>虚函数的调用要通过查找对象内部的虚指针指向的虚函数表。若构造函数是虚函数，则要去查找vptr，但此时对象没有初始化，没有vptr。</li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
+</li>
+<li>从多态角度解释：<ul>
+<li>虚函数主要是用于实现多态的，而构造函数是创建对象时自动调用的，不可能通过父类的指针或者引用去调用，完全和多态不沾边，成为虚函数没有任何意义。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>析构函数：<ul>
+<li>当有派生类且派生类申请了内存时，析构函数必须要是虚函数，不然就会派生类申请的内存得不到释放，会造成内存泄露。<ul>
+<li>注：<strong>如果析构函数不被声明成虚函数，则编译器实施静态绑定</strong>，在删除指向派生类的基类指针时，<strong>只会调用基类的析构函数而不调用派生类析构函数</strong>。</li>
+</ul>
+</li>
+<li>其余情况析构函数尽量别成为虚函数，因为虚指针、虚函数表浪费内存。</li>
+</ul>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://blog.csdn.net/libaineu2004/article/details/85684224">https://blog.csdn.net/libaineu2004/article/details/85684224</a></li>
+<li><a href="https://blog.csdn.net/qq_28584889/article/details/88749862">https://blog.csdn.net/qq_28584889/article/details/88749862</a></li>
+<li><a href="https://blog.csdn.net/weixin_42333471/article/details/88067951">https://blog.csdn.net/weixin_42333471/article/details/88067951</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>算法</category>
+        <category>杂谈</category>
       </categories>
       <tags>
-        <tag>状态压缩</tag>
+        <tag>构造、析构函数可以是虚函数？</tag>
       </tags>
   </entry>
   <entry>
@@ -720,6 +695,32 @@
       </categories>
       <tags>
         <tag>端口复用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>状态压缩</title>
+    <url>/2021/11/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/</url>
+    <content><![CDATA[<h3 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h3><h4 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h4><ul>
+<li>用二进制表示状态</li>
+<li>位运算</li>
+</ul>
+<h4 id="LC318-最大单词长度乘积"><a href="#LC318-最大单词长度乘积" class="headerlink" title="LC318.最大单词长度乘积"></a>LC318.最大单词长度乘积</h4><p><img src="/images/blogImg/lc318.png" alt="题目描述"></p>
+<ul>
+<li>遍历所有的单词对，判断他们是否有同样的字母出现；</li>
+<li>传统的做法就是用一个长度为26的数组记录每个单词出现了哪些字符；每次比较遍历复杂度是26，乘以遍历单词对O(n^2)复杂度，可能就会超时了；</li>
+<li>一个优化的方式就是采用<strong>状态压缩</strong>，我们将<strong>每一个字母是否出现在某个单词的状态用一个int表示， int的每一位代表a-z中的每个字母是否出现过;</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxProduct</span><span class="hljs-params">(vector&lt;string&gt;&amp; words)</span> </span>&#123;<br>        <span class="hljs-comment">// 状态压缩：</span><br>        <span class="hljs-comment">// 用一个26位的int表示每个字符是否出现。(比如...101 表示&#x27;c&#x27;和&#x27;a&#x27;出现过)</span><br>        <span class="hljs-comment">// 之后再用 &amp; 运算即可知道是否有相同字符</span><br><br>        <span class="hljs-keyword">int</span> n = words.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">status</span><span class="hljs-params">(n, <span class="hljs-number">0</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; ch : words[i]) &#123;<br>                status[i] |= <span class="hljs-number">1</span> &lt;&lt; (ch-<span class="hljs-string">&#x27;a&#x27;</span>);     <span class="hljs-comment">// ch相应的位置置1</span><br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>                <span class="hljs-keyword">if</span>( (status[i] &amp; status[j]) == <span class="hljs-number">0</span>) &#123;    <span class="hljs-comment">// &amp; 为0，表示没有相同的字符</span><br>                    <span class="hljs-keyword">int</span> len = words[i].<span class="hljs-built_in">length</span>() * words[j].<span class="hljs-built_in">length</span>();<br>                    res = <span class="hljs-built_in">max</span>(res, len);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> res;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>复杂度：O(L+n^2)，L是全部单词长度之和;</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>状态压缩</tag>
       </tags>
   </entry>
 </search>
