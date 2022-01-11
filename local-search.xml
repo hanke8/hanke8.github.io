@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>《MySQL必知必会》</title>
+    <link href="/2022/01/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/"/>
+    <url>/2022/01/12/MySQL%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/</url>
+    
+    <content type="html"><![CDATA[<h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><ul><li><blockquote><p>mysql  -h HostName -u UserName -p</p></blockquote></li></ul><h3 id="查看数据库、表、列"><a href="#查看数据库、表、列" class="headerlink" title="查看数据库、表、列"></a>查看数据库、表、列</h3><ul><li><blockquote><p>SHOW DATABASES;</p><p>SHOW TABLES;</p><p>DESC tablename;</p></blockquote></li></ul><h3 id="检索数据"><a href="#检索数据" class="headerlink" title="检索数据"></a>检索数据</h3><ul><li><p>检索多列</p><blockquote><p>SELECT colname1, colname2 FROM tablename;</p></blockquote></li><li><p>检索所有列</p><blockquote><p>SELECT * FROM tablename;</p></blockquote></li><li><p>检索不同行(去重)</p><blockquote><p>SELECT DISTINCT colname1, colname2 FROM tablename;</p></blockquote><p>注：DISTINCT会修饰其后所有的列名。</p></li><li><p>限制结果</p><blockquote><p>SELECT colname FROM tablename LIMIT 5;         // 仅返回五行</p><p>SELECT colname FROM tablename LIMIT 3, 5;     // 从第四行开始，一共返回五行</p><p>SELECT colname FROM tablename LIMIT 5 OFFSET 3;  // 和上面的等价</p></blockquote><p>注：行的索引从0开始。</p></li></ul><h3 id="排序结果"><a href="#排序结果" class="headerlink" title="排序结果"></a>排序结果</h3><ul><li><p>升序排列(默认ascend)</p><blockquote><p>SELECT colname FROM tablename ORDER BY colname1, colname2;    // 先按照colname1升序排列，colname1相同的再按照colname2升序排列</p></blockquote></li><li><p>降序排列(descend)</p><blockquote><p>SELECT colname FROM tablename ORDER BY colname1 DESC, colname2;    // 先按照colname1降序排列，colname1相同的再按照colname2升序排列</p></blockquote><p>注：DESC 仅修饰其前面一个列。</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>书籍</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>《MySQL必知必会》</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>面先对象高级编程</title>
     <link href="/2021/12/13/%E9%9D%A2%E5%85%88%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/"/>
     <url>/2021/12/13/%E9%9D%A2%E5%85%88%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/</url>
@@ -507,22 +532,22 @@
   
   
   <entry>
-    <title>about</title>
+    <title></title>
     <link href="/"/>
     <url>/</url>
     
-    <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
+    <content type="html"><![CDATA[]]></content>
     
   </entry>
   
   
   
   <entry>
-    <title></title>
+    <title>about</title>
     <link href="/"/>
     <url>/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
     
   </entry>
   
