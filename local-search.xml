@@ -532,22 +532,22 @@
   
   
   <entry>
-    <title></title>
+    <title>about</title>
     <link href="/"/>
     <url>/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>​                                                                                    <strong>风起于青萍之末，浪成于微澜之间</strong></p>]]></content>
     
   </entry>
   
   
   
   <entry>
-    <title>about</title>
+    <title></title>
     <link href="/"/>
     <url>/</url>
     
-    <content type="html"><![CDATA[<p>​                                                                                    <strong>灵台方寸山，斜月三星洞</strong></p>]]></content>
+    <content type="html"><![CDATA[]]></content>
     
   </entry>
   
