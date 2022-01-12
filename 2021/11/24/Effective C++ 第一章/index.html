@@ -179,7 +179,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      862 字
+      863 字
     </span>
   
 
@@ -240,14 +240,14 @@
 <li>拷贝构造函数的参数只能是传引用(不能是传值，也不能传指针)。<a href="http://hanke8.cloud/2021/11/22/%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0/">解释</a></li>
 </ul>
 <h3 id="条款01-视-C-为一个语言联邦"><a href="#条款01-视-C-为一个语言联邦" class="headerlink" title="条款01 视 C++ 为一个语言联邦"></a>条款01 视 C++ 为一个语言联邦</h3><ul>
-<li>C++ 是个多重范型编程语言：面向过程、面向对象、函数式、泛型、原编程式，所以他的规约很多，记住四个次语言可以帮助了解 C++：C、Object-Oriented C++、Template C++、STL。</li>
+<li>C++ 是个多重范型编程语言：面向过程、面向对象、函数式、泛型、元编程式，所以他的规约很多，记住四个次语言可以帮助了解 C++：C、Object-Oriented C++、Template C++、STL。</li>
 </ul>
 <h3 id="条款02-尽量以-const、enum、inline-替换-define"><a href="#条款02-尽量以-const、enum、inline-替换-define" class="headerlink" title="条款02 尽量以 const、enum、inline 替换 #define"></a>条款02 尽量以 const、enum、inline 替换 #define</h3><ul>
 <li><p>少用#define的理由如下：</p>
 <ul>
 <li><strong>#define不会进行类型安全检查</strong>，#define AGE 25，AGE无类型，在进行预处理阶段只有AGE被替换成25的过程；而const int age = 25，age有类型(int)，在编译阶段会进行类型安全检查。</li>
-<li><strong>#define不提供封装性</strong>，即不存在private #define 这样的东东，无法用在class内部用#define定义class的专属常量；而class的常量可以用const来声明，比如static const int MAX_SIZE = 1024。</li>
-<li><strong>使用#define定义”宏函数”时，会出其不意的错误有时候</strong>，最好改用inline函数替换#define。</li>
+<li><strong>#define不提供封装性</strong>，即不存在private #define 这样的东西，无法用在class内部用#define定义class的专属常量；而class的常量可以用const来声明，比如static const int MAX_SIZE = 1024。</li>
+<li><strong>使用#define定义”宏函数”时，有时候会有出其不意的错误</strong>，最好改用inline函数替换#define。</li>
 </ul>
 </li>
 <li><p>他们的根本差别是：前三者是编译器处理的，最后者是预处理器处理的。enum 比 const 更像 #define，比如说 const 定义通常可以求地址或引用，而 enum 不行。</p>
@@ -266,15 +266,15 @@
 </ul>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gcode"><span class="hljs-comment">// 本意是 ==，结果导致在 a * b 的临时变量上调用 operator=</span><br><span class="hljs-keyword">if</span> <span class="hljs-comment">(a * b = c)</span> ...<br></code></pre></td></tr></table></figure>
 
-<p>​        如果 operator= 返回值不是 const 会导致以上错误代码编译通过！</p>
+<p>​        如果 operator= 返回值是 const 则会令以上错误代码编译不通过。</p>
 <h3 id="条款04-确定对象被使用前已被初始化"><a href="#条款04-确定对象被使用前已被初始化" class="headerlink" title="条款04 确定对象被使用前已被初始化"></a>条款04 确定对象被使用前已被初始化</h3><ul>
 <li><p><strong>c++规定初始化发生在进入构造函数之前</strong>。</p>
 <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs reasonml"><span class="hljs-keyword">class</span> A&#123;<br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-built_in">int</span> x;<br>	<span class="hljs-built_in">int</span> y;<br>	<span class="hljs-comment">// 赋值</span><br>    <span class="hljs-constructor">A()</span> &#123;<br>    	x = <span class="hljs-number">0</span>;		<span class="hljs-comment">// 注意！这是赋值不是初始化。（在进入构造函数之前就进行了初始化）</span><br>    	y = <span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-comment">// 初始化</span><br>    <span class="hljs-constructor">A()</span>: x(<span class="hljs-number">0</span>), y(<span class="hljs-number">0</span>) &#123;	<span class="hljs-comment">// 这才是初始化，这样比赋值的效率高（因为赋值前就进行了初始化）</span><br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure></li>
 <li><p>c++对于处于不同编译单元的non-local static对象的初始化相对顺序无明确定义。</p>
 <ul>
-<li>注：local static对象是指在函数内声明定义的static对象，并通过该函数返回该对象的引用。</li>
 <li>带来问题：比如两个源文件分别定义了non-local static对象a, b，其中a用到了b，此时b可能还未初始化。</li>
 <li>解决方案：为避免跨编译单元的初始化次序问题，用 local static 对象代替 non-local static 对象，参考 Singleton 模式常见实现。</li>
+<li>注：local static对象是指在函数内声明定义的static对象，并通过该函数返回该对象的引用。</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">XClass&amp; <span class="hljs-function"><span class="hljs-title">GetInstance</span>(<span class="hljs-params"></span>)</span><br>&#123;<br>    <span class="hljs-keyword">static</span> XClass instance;<br>    <span class="hljs-keyword">return</span> instance;<br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ul>
