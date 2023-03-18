@@ -247,7 +247,44 @@
 <li><p>defer栈。<strong>推迟的函数调用会被压入一个栈中</strong>。当外层函数返回时，被推迟的函数会按照后进先出的顺序调用。</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css">for <span class="hljs-selector-tag">i</span> := <span class="hljs-number">0</span>; <span class="hljs-selector-tag">i</span> &lt; <span class="hljs-number">10</span>; <span class="hljs-selector-tag">i</span>++ &#123;<br>	defer fmt<span class="hljs-selector-class">.Println</span>(<span class="hljs-selector-tag">i</span>)<br>&#125;<br><br>fmt<span class="hljs-selector-class">.Println</span>(&quot;done&quot;)<br></code></pre></td></tr></table></figure></li>
 </ul>
-]]></content>
+<h4 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h4><ul>
+<li><p>如果我们有一个指向结构体的指针 <code>p</code>，那么可以通过 <code>(*p).X</code> 来访问其字段 <code>X</code>。Go语言也允许我们使用隐式间接引用，直接写 <code>p.X</code> 就可以。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> A <span class="hljs-keyword">struct</span> &#123;<br>	x <span class="hljs-keyword">int</span><br>	y <span class="hljs-keyword">int</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	v := A&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;<br>	p := &amp;v			<span class="hljs-comment">// 结构体指针</span><br>	p.x = <span class="hljs-number">3</span><br>	fmt.Println(v)<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><figure class="highlight go"><table><tr><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 写法1</span><br><span class="hljs-keyword">var</span> arr [<span class="hljs-number">3</span>]<span class="hljs-keyword">int</span><br><br><span class="hljs-comment">// 写法2</span><br>arr := [<span class="hljs-number">3</span>]<span class="hljs-keyword">int</span>&#123;<span class="hljs-number">11</span>, <span class="hljs-number">22</span>, <span class="hljs-number">33</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h4><ul>
+<li><p>每个数组的大小都是固定的。而切片则为数组元素提供动态大小的、灵活的视角。类型 <code>[]T</code> 表示一个元素类型为 <code>T</code> 的切片。</p>
+</li>
+<li><p><strong>切片的本质（切片就像数组的引用，底层维护一个数组，切片就像指向这个数组的指针）</strong></p>
+<ul>
+<li>切片并不存储任何数据，它只是描述了底层数组中的一段。</li>
+<li>更改切片的元素会修改其底层数组中对应的元素。</li>
+<li>与它共享底层数组的切片都会观测到这些修改。</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus"><span class="hljs-selector-tag">a</span> := <span class="hljs-selector-attr">[]</span>int&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;		<span class="hljs-comment">// 创建切片也可以写成  a := make([]int, 长度, 容量)</span><br><br><span class="hljs-selector-tag">b</span> := <span class="hljs-selector-tag">a</span><span class="hljs-selector-attr">[0:2]</span><br>fmt<span class="hljs-selector-class">.Println</span>(<span class="hljs-selector-tag">a</span>, b)<br><br><span class="hljs-selector-tag">b</span><span class="hljs-selector-attr">[0]</span> = -<span class="hljs-number">1</span><br>fmt<span class="hljs-selector-class">.Println</span>(<span class="hljs-selector-tag">a</span>, b)		<span class="hljs-comment">// 改变b会发现a的数据也被改了（因为他们指向同一个底层数组）</span><br></code></pre></td></tr></table></figure></li>
+<li><p>切片的长度和容量。长度 <code>len(s)</code> 即切片所包含元素的个数，容量 <code>cap(s)</code> 即底层数组的大小。</p>
+</li>
+<li><p>切片的零值为nil。nil 切片的长度和容量为 0 且没有底层数组。</p>
+</li>
+<li><p>使用append添加元素。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> s []<span class="hljs-keyword">int</span><br><br>s = <span class="hljs-built_in">append</span>(s, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)	<span class="hljs-comment">// append可以一次添加多个数据</span><br><br><span class="hljs-comment">// 当 s 的底层数组太小，不足以容纳所有给定的值时，它就会分配一个更大的数组。返回的切片会指向这个新分配的数组。</span><br></code></pre></td></tr></table></figure></li>
+<li><p>使用range遍历切片。 </p>
+<figure class="highlight css"><table><tr><td class="code"><pre><code class="hljs css">for idx, val := range slice &#123;<br>	fmt.<span class="hljs-built_in">Printf</span>(<span class="hljs-string">&quot;index: %d, value: %d\n&quot;</span>, idx, val)<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="映射-map"><a href="#映射-map" class="headerlink" title="映射(map)"></a>映射(map)</h4><ul>
+<li>创建map。<code>m := make(map[keyType]valueType)</code> 或者<code>m := map[keyType]valueType &#123;k1:v1, k2:v2&#125;</code></li>
+<li>添加元素。<code>m[key] = elem</code></li>
+<li>删除元素。<code>delete(m, key)</code></li>
+<li>通过双赋值检测某个键是否存在。<code>elem, isOk := m[key]</code></li>
+</ul>
+<h4 id="函数的闭包"><a href="#函数的闭包" class="headerlink" title="函数的闭包"></a>函数的闭包</h4><ul>
+<li><p>理解：<strong>匿名函数和它引用的变量以及环境，类似常规函数引用全局变量处于一个包的环境。</strong>(函数 + 环境 = 闭包)</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-comment">// 这一块相当于一个闭包 (begin)</span><br>	n := <span class="hljs-number">0</span><br>	f := <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span> <span class="hljs-title">int</span></span> &#123;<br>		n += <span class="hljs-number">1</span><br>		<span class="hljs-keyword">return</span> n<br>	&#125;<br>	<span class="hljs-comment">// (end)</span><br>	<br>	fmt.Println(f())  <span class="hljs-comment">// 别忘记括号，不加括号相当于地址</span><br>	fmt.Println(f())<br>&#125;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">output as follows:</span><br><span class="hljs-comment">1</span><br><span class="hljs-comment">2</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure></li>
+<li><p>将闭包作为函数的返回值。<strong>闭包被返回赋予一个同类型的变量时，同时赋值的是整个闭包的状态，该状态会一直存在外部被赋值的变量<code>in</code>中，直到<code>in</code>被销毁，整个闭包也被销毁。</strong></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><code class="hljs swift"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Increase</span>()</span> <span class="hljs-function"><span class="hljs-keyword">func</span>()</span> int &#123;<br>	<span class="hljs-comment">// 闭包的开始</span><br>	n :<span class="hljs-operator">=</span> <span class="hljs-number">0</span><br>	<span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">func</span>()</span> int &#123;			<span class="hljs-comment">// 将闭包作为返回值</span><br>		n<span class="hljs-operator">++</span><br>		<span class="hljs-keyword">return</span> n<br>	&#125;<br>	<span class="hljs-comment">// 闭包的结束</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span>()</span> &#123;<br>	<span class="hljs-keyword">in</span> :<span class="hljs-operator">=</span> <span class="hljs-type">Increase</span>()<br>	fmt.<span class="hljs-type">Println</span>(<span class="hljs-keyword">in</span>())<br>	fmt.<span class="hljs-type">Println</span>(<span class="hljs-keyword">in</span>())<br>&#125;<br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">output as follows:</span><br><span class="hljs-comment">1</span><br><span class="hljs-comment">2</span><br><span class="hljs-comment">*/</span><br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="接口和方法"><a href="#接口和方法" class="headerlink" title="接口和方法"></a>接口和方法</h3>]]></content>
       <categories>
         <category>分布式数据库TinyKV</category>
       </categories>
